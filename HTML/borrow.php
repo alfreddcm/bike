@@ -14,8 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $department = $_POST['dep'];
     $time = $_POST['time'];
     $date = $_POST['date'];
-    $timer = '-';
-    $dater = '-';
+    $timer = null;
+    $dater = null;
 
     $sql = "SELECT * FROM history WHERE (bikeid = ? and (studidno = ? and (studfname = ? and studlname = ?))) AND (timereturn = ? OR datereturn = ?)";
     $query = $conn->prepare($sql);
@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $query1 = $conn->prepare($sql1);
         $query1->bind_param("ssssssssss", $bikeid, $studid, $fname, $lname, $course, $department, $time, $date, $timer, $dater);
         $query1->execute();
+
 
         $sql2 = "UPDATE bikeinfo SET stat = ? WHERE bikeid = ?";
         $query2 = $conn->prepare($sql2);

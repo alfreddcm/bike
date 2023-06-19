@@ -39,30 +39,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Deleting
 if (isset($_GET['rn'])) {
-    $confirmation = $_POST['confirmation'];
 
-    if ($confirmation === 'yes') {
-    $bikeId = $_GET['rn'];
-    $stmt = $conn->prepare("DELETE FROM bikeinfo WHERE bikeid = ?");
-    $stmt->bind_param("s", $bikeId);
-    
-    $stmt->execute();
-    if ($stmt->affected_rows > 0) {
-        echo "<script>alert('Record Deleted!'); window.location.href='bikelist.php';</script>";
-    } else {
-        echo "<script>alert('Error in Deleting!'); window.location.href='bikelist.php';</script>";
+        $bikeid = $_GET['rn'];
+        $stmt = $conn->prepare("DELETE FROM bikeinfo WHERE bikeid = ?");
+        $stmt->bind_param("s", $bikeid);
+        
+        if ($stmt->execute()) {
+            if ($stmt->affected_rows > 0) {
+                echo "<script>alert('Record Deleted!'); window.location.href='bikelist.php';</script>";
+            } else {
+                echo "<script>alert('No record found to delete!'); window.location.href='bikelist.php';</script>";
+            }
+        } else {
+            echo "Error executing the delete query: " . $stmt->error;
+        }
+        
+        $stmt->close();
     }
-    
-    $stmt->close();
 
-
-
-        echo "Bike with ID $bikeId has been deleted.";
-    } else {
-        echo "Deletion canceled.";
-    }
-    
-}
 ?>
 
 <style>
@@ -166,7 +160,7 @@ function updatebike() {
             echo "<img src='delete.png' alt='Delete' class='remove-icon'>";
             echo "<span class='remove-text'>Remove</span>";
             echo "</a>";
-            echo "<a href='move_to_repair.php?rn=" . $row['bikeid'] . "' class='repair-button'>";
+            echo "<a href='movetorepair.php?rn=" . $row['bikeid'] . "' class='repair-button'>";
             echo "<img src='repair.png' alt='Move to Repair' class='repair-icon'>";
             echo "<span class='repair-text'>Move to Repair</span></a>";            
             echo "</div>";
@@ -218,7 +212,6 @@ function updatebike() {
                     <button type="submit">Update Bike</button>
                 </form>
             </div>
-    </div>
-</body>
-
+        </div>
+    </body>
 </html>

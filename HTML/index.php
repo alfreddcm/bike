@@ -26,7 +26,6 @@ body {
     display: flex;
 }
 .div1 {
-    border: 1px solid black;
     width: 60%;
     height: 100%;
 }
@@ -42,6 +41,7 @@ form{
     width: 20%;
 }
 </style>
+
 <body>
     <div class="div1">
         <h1>Welcome to Bike Management System</h1>
@@ -94,7 +94,7 @@ function validateForm() {
         const course = document.getElementById("course").value;
         const dep = document.getElementById("dep").value;
 
-        if (idno === "" || fname === "" || lname === "" || course==="" || dep==="") {
+        if (idno === "" || fname === "" || lname === "" || course=== "" || dep=== "") {
             alert("Please fill in all required fields.");
             return false;
         }

@@ -9,17 +9,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $studid = mysqli_real_escape_string($conn, $_POST['idnor']);
     $time = mysqli_real_escape_string($conn, $_POST['timer']);
     $date = mysqli_real_escape_string($conn, $_POST['dater']);
+    $timer = null;
+    $dater = null;
 
-    $sql ="SELECT * FROM history WHERE studidno = ? AND (timereturn ='-' or datereturn='-')"; 
+    $sql ="SELECT * FROM history WHERE studidno = ? AND (timereturn = ? or datereturn= ?)"; 
     $query=$conn->prepare($sql);
-    $query->bind_param("s",$studid);
+    $query->bind_param("sss",$studid,$timer,$dater);
     $query->execute();
     $query->store_result();
 
     if ($query->num_rows > 0) {
-        echo "<script> alert('Student ID: " . $studid . "');</script>";
-        echo "<script>alert(' Bike ID: " . $bikeid . "');</script>";
-    
+
+        echo "<script> alert('Student ID: " . $studid . " Bike ID: " . $bikeid . "');</script>";
         $sql2 = "SELECT * FROM history WHERE bikeid = ? AND (timereturn ='-' or datereturn='-')";
         $query2 = $conn->prepare($sql2);
         $query2->bind_param("s", $bikeid);
