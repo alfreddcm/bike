@@ -14,79 +14,140 @@ $result = mysqli_query($conn, $sql);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Submission</title>
+    <title>Bike Management System</title>
 </head>
-<script>
-    function submitForm() {
-        document.getElementById("myForm").reset();
-    }
-</script>
 <style>
-body {
-    display: flex;
+    body{
+    
+    display:flex;        
+	height: 100%;
+    font-family: Poppins-Regular, sans-serif;
+    background-color: #f9df30;
 }
-.div1 {
-    width: 60%;
-    height: 100%;
+        
+.column1 {
+  float: left;
+  width: 60%;
+  padding: 10px;
 }
-form{
+.column2 {
+  float: left;
+  width: 40%;
+  padding: 10px;
+  height: 300px;
+}
+#idno{
+    margin-top:5px;
+    width:50px;
+}
+#fname,#lname{
+    width: 150px;
+}
+
+.con{
+    background-color:white;
+    border-radius:3px;
+    margin-top:6rem;
+    width:400px;
+    box-shadow:10px 10px 10px;
+    padding:20px;
+}
+.con input[type="text"]{
+    margin-top:2px;
+    margin-bottom:3px;
+    padding:5px;
+    font-size:15px;
+    border: none;
+    border-bottom: 1px solid black;
+}
+#status, #bikeid{
+    border-radius:3px;
+    background-color:gren;
+    font-size:15px;
+    text-align:center;
     display: block;
+  margin-left: auto;
+  margin-right: auto;
+    width:100%;
 }
-#bikeid {
-    text-align: center;
-    padding: auto;
-    width: 100%;
+.side{
+    
+  display: flex;
+  flex-direction: row-reverse;
+  align-content:space-around;
+  padding:20px;
 }
-#idno {
-    width: 20%;
+.side button{
+    cursor: pointer;
+    background-color: transparent;
+  text-decoration:none;
+  margin: 10px;
+  border:none;
 }
+
+
 </style>
 
 <body>
-    <div class="div1">
+    <div class="column1">
         <h1>Welcome to Bike Management System</h1>
+        <div class="p">
+            <?php echo "Today is " . date("l"); ?>
+        </div>
+
     </div>
-    <div> 
+
+    <div class="column2">
+        <div class="side">
+            <button href="">Help and Support</button>
+            <button href="">Login as administrator</button>
+        </div>
+        <div class="con"> 
+            <label for="">Select action:</label><br>
             <select name="status" id="status" required>
-            <option value="borrow">Borrow</option>
-            <option value="return">Return</option>
-        </select>
+                <option value="borrow">BORROWING</option>
+                <option value="return">RETURNING</option>
+            </select><br>
 
-        <div id="borrow">
-            <form action="borrow.php" method="POST" id="borrowform" onsubmit="return validateForm();">
-            <select name="dropd" id="bikeid">
-                <?php while ($row = mysqli_fetch_assoc($result)): ?>
-                    <option value="<?php echo $row["bikeid"]; ?>">
-                <?php echo $row["bikeid"]; ?>
-                    </option>
-                <?php endwhile; ?>
-                </select>
+            <div id="borrow">
+                <form action="borrow.php" method="POST" id="borrowform" onsubmit="return validateForm();">
+                <?php echo "Number available bikes: " . $result->num_rows;?><br>
+                <label for="">Choose bike id:</label><br>
+                <select name="dropd" id="bikeid">
+                    <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                        <option value="<?php echo $row["bikeid"]; ?>">
+                    <?php echo $row["bikeid"]; ?>
+                        </option>
+                    <?php endwhile; ?>
+                    </select>
 
-                <input type="text" name="idno" id="idno" placeholder="ID No" require>
-                <input type="text" name="fname" id="fname" placeholder="First Name" require>
-                <input type="text" name="lname" id="lname" placeholder="Last Name" require><br>
-                <input type="text" name="course" id="course" placeholder="Course" require>
-                <input type="text" name="dep" id="dep" placeholder="Department" require><br>
-                <input type="time" name="time" id="time" required>
-                <input type="date" name="date" id="date" required> 
-                <br>
-                <input type="submit" name="submit">
-            </form>
-        </div>
+                    <input type="text" name="idno" id="idno" placeholder="ID No" require>
+                    <input type="text" name="fname" id="fname" placeholder="First Name" require>
+                    <input type="text" name="lname" id="lname" placeholder="Last Name" require><br>
+                    <input type="text" name="course" id="course" placeholder="Course" require>
+                    <input type="text" name="dep" id="dep" placeholder="Department" require><br>
+                    <input type="datetime-local" name="datetime" id="datetime" require> 
+                    <br>
+                    <input type="submit" name="submit">
+                </form>
+                </div>
+        
 
-        <div id="return">
-            <form action="return.php" method="POST" id="returnform" onsubmit="return validateForm2();">
-                <input type="text" name="bikeidr" id="bikeidr" placeholder="Enter Bike ID"><br>
-                <input type="text" name="idnor" id="idnor" placeholder="ID No"><br>
-                <input type="time" name="timer" id="timer" required>
-                <input type="date" name="dater" id="dater" required> 
-                <br>
-                <input type="submit" name="submit">
-            </form>
-        </div>
+                    <div id="return">
+                        <form action="return.php" method="POST" id="returnform" onsubmit="return validateForm2();">
+                        <label for="">Enter bike id:</label><br>
+                            <input type="text" name="bikeidr" id="bikeidr" placeholder="Bike ID">
+                            <input type="text" name="idnor" id="idnor" placeholder="ID No"><br>
+                            <input type="datetime-local" name="datetimer" id="datetimer" require> 
+                            <br>
+                            <input type="submit" name="submit">
+                        </form>
+                        </div>
+    </div>
 </body>
-<script>
 
+
+<script>
 function validateForm() {
         const idno = document.getElementById("idno").value;
         const fname = document.getElementById("fname").value;
@@ -94,7 +155,7 @@ function validateForm() {
         const course = document.getElementById("course").value;
         const dep = document.getElementById("dep").value;
 
-        if (idno === "" || fname === "" || lname === "" || course=== "" || dep=== "") {
+        if (idno === "" || fname === "" || lname === "" || course=== "" || dep=== "" ) {
             alert("Please fill in all required fields.");
             return false;
         }
@@ -126,15 +187,6 @@ function validateForm() {
             returnDiv.style.display = 'block';
         }
     });
-
-    const now = new Date();
-    const datenow = now.toISOString().slice(0, 10);
-    const timenow = now.toTimeString().slice(0, 5);
-  document.getElementById("date").value = datenow;
-  document.getElementById("time").value = timenow;
-  document.getElementById("dater").value = datenow;
-  document.getElementById("timer").value = timenow;
-
 </script>
 
 </html>
