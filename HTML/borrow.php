@@ -12,14 +12,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lname = $_POST['lname'];
     $course = $_POST['course'];
     $department = $_POST['dep'];
-    $time = $_POST['time'];
-    $date = $_POST['date'];
-    $timer = null;
-    $dater = null;
+    $datetime=$_POST['datetime'];
 
-    $sql = "SELECT * FROM history WHERE (bikeid = ? and (studidno = ? and (studfname = ? and studlname = ?))) AND (timereturn = ? OR datereturn = ?)";
+    $sql = "SELECT * FROM history WHERE bikeid= ? and studidno= ? and studfname = ? and studlname= ? and dtreturn IS NULL";
     $query = $conn->prepare($sql);
-    $query->bind_param("ssssss", $bikeid, $studid, $fname, $lname, $timer, $dater);
+    $query->bind_param("ssss", $bikeid, $studid, $fname, $lname);   
     $query->execute();
     
     $query->store_result();
@@ -29,9 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $query->close();
 
-        $sql1 = "INSERT INTO history (bikeid, studidno, studfname, studlname, course, depname, timeborrow, dateborrow, timereturn, datereturn) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql1 = "INSERT INTO history (bikeid, studidno, studfname, studlname, course, depname, dtborrow) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $query1 = $conn->prepare($sql1);
-        $query1->bind_param("ssssssssss", $bikeid, $studid, $fname, $lname, $course, $department, $time, $date, $timer, $dater);
+        $query1->bind_param("sssssss", $bikeid, $studid, $fname, $lname, $course, $department, $datetime);
         $query1->execute();
 
 

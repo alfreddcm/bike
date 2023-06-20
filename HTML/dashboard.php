@@ -1,6 +1,18 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+require('connection.php');
+
+?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
       <style>
           body {
               height: 100%;
@@ -74,21 +86,48 @@
     <div class="dashboard">
         <fieldset class="fieldset1">
             <legend>BIKE LIST</legend>
-            <p>12 registered bike</p>
+            <?php
+                $sql = "SELECT * FROM bikeinfo";
+                $query = $conn->query($sql);
+                $result = $query->fetch_all(MYSQLI_ASSOC);
+                $rowCount = count($result);
+                echo $rowCount . " registered Bike";
+            ?><br><a href="bikelist.php">See list</a>
         </fieldset>
 
         <fieldset class="fieldset2">
             <legend>TRANSACTIONS</legend>
-            <h4>7 barrowed bike
-            <br> 6 available bike</h4>
+            <?php
+                $sql = "SELECT * FROM bikeinfo where stat='borrowed'";
+                $query = $conn->query($sql);
+                $result = $query->fetch_all(MYSQLI_ASSOC);
+                $rowCount = count($result);
+                echo $rowCount . " borrowed Bike";
+            ?><br>
+            
+            <br>
+            <?php
+                $sql = "SELECT * FROM bikeinfo where stat='available'";
+                $query = $conn->query($sql);
+                $result = $query->fetch_all(MYSQLI_ASSOC);
+                $rowCount = count($result);
+                echo $rowCount . " available Bike";
+            ?><br><a href="">See list</a>
+
         </fieldset>
 
         <fieldset class="fieldset3">
             <legend>REPAIR LIST</legend>
-            <p>12 registered bike</p>
+            <?php
+                $sql = "SELECT * FROM bikeinfo where stat='undermaintenance'";
+                $query = $conn->query($sql);
+                $result = $query->fetch_all(MYSQLI_ASSOC);
+                $rowCount = count($result);
+                echo $rowCount . " registered Bike";
+            ?>
         </fieldset>
     </div>
-    <div class="logout"><button>logout</button></div>
+    <div class="logout"><button>LOG OUT</button></div>
 </div>
   </body>
 </html>

@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $Parts = json_decode($_POST['brokenParts'], true);
         $bikeid = $_GET['bikeid']; 
         $status='undermaintenance';
-
+        
         require_once 'connection.php';
         $stmt = $conn->prepare("INSERT INTO onrepairlist (bikeid, brokenparts) VALUES (?, ?)");
         $stmt->bind_param("ss", $bikeid, $Parts);

@@ -100,7 +100,7 @@ $result = mysqli_query($conn, $sql);
     <div class="column2">
         <div class="side">
             <button href="">Help and Support</button>
-            <button href="">Login as administrator</button>
+            <button onclick="gologin()">Login as administrator</button>
         </div>
         <div class="con"> 
             <label for="">Select action:</label><br>
@@ -148,6 +148,10 @@ $result = mysqli_query($conn, $sql);
 
 
 <script>
+
+    function gologin(){
+        window.location.href="login.php";
+    }
 function validateForm() {
         const idno = document.getElementById("idno").value;
         const fname = document.getElementById("fname").value;

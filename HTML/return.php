@@ -7,21 +7,18 @@ require('connection.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bikeid = mysqli_real_escape_string($conn, $_POST['bikeidr']);
     $studid = mysqli_real_escape_string($conn, $_POST['idnor']);
-    $time = mysqli_real_escape_string($conn, $_POST['timer']);
-    $date = mysqli_real_escape_string($conn, $_POST['dater']);
-    $timer = null;
-    $dater = null;
+    $datetime = mysqli_real_escape_string($conn, $_POST['datetimer']);
 
-    $sql ="SELECT * FROM history WHERE studidno = ? AND (timereturn = ? or datereturn= ?)"; 
+    $sql ="SELECT * FROM history WHERE studidno = ? AND dtreturn is NULL"; 
     $query=$conn->prepare($sql);
-    $query->bind_param("sss",$studid,$timer,$dater);
+    $query->bind_param("s",$studid);
     $query->execute();
     $query->store_result();
 
     if ($query->num_rows > 0) {
 
         echo "<script> alert('Student ID: " . $studid . " Bike ID: " . $bikeid . "');</script>";
-        $sql2 = "SELECT * FROM history WHERE bikeid = ? AND (timereturn ='-' or datereturn='-')";
+        $sql2 = "SELECT * FROM history WHERE bikeid = ? AND dtreturn is NULL";
         $query2 = $conn->prepare($sql2);
         $query2->bind_param("s", $bikeid);
         $query2->execute();
@@ -33,9 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $query3->bind_param("s", $bikeid);
             $query3->execute();
     
-            $sql4 = "UPDATE history SET timereturn = ?, datereturn = ? WHERE bikeid = ?";
+            $sql4 = "UPDATE history SET dtreturn= ? WHERE bikeid = ?";
             $query4 = $conn->prepare($sql4);
-            $query4->bind_param("sss", $time, $date, $bikeid);
+            $query4->bind_param("ss", $datetime, $bikeid);
             $query4->execute();
             echo "<script> alert('Transactions Recorded!'); window.location.href='index.php';</script>";
         } else {
