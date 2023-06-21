@@ -14,18 +14,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $department = $_POST['dep'];
     $datetime=$_POST['datetime'];
 
-    $sql = "SELECT * FROM history WHERE bikeid= ? and studidno= ? and studfname = ? and studlname= ? and dtreturn IS NULL";
+
+
+
+    $sql = "SELECT * FROM history WHERE bikeid= ? and studidno= ? and studfname = ? and studlname= ?";
     $query = $conn->prepare($sql);
     $query->bind_param("ssss", $bikeid, $studid, $fname, $lname);   
     $query->execute();
     
-    $query->store_result();
-    
-    if ($query->num_rows > 0) {
-        echo "<script>alert('You cannot borrow a bike. Please return the borrowed bike first.'); window.location.href='index.php';</script>";
-    } else {
-        $query->close();
+    $row = $query->get_result()->fetch_array(MYSQLI_ASSOC);
 
+    if($row['dtreturn']=== NULL){
+        echo "<script>alert('You cannot borrow a bike. Please return the borrowed bike first.'); window.location.href='index.php';</script>";
+    }else{
+        
+        $query->close();
         $sql1 = "INSERT INTO history (bikeid, studidno, studfname, studlname, course, depname, dtborrow) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $query1 = $conn->prepare($sql1);
         $query1->bind_param("sssssss", $bikeid, $studid, $fname, $lname, $course, $department, $datetime);

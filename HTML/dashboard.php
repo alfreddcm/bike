@@ -62,6 +62,9 @@ require('connection.php');
           .fieldset1{
             background-color: red;
           }
+          .fieldset1:hover{
+            background-color: pink;
+          }
           .fieldset2{
             background-color: blue;
           }
@@ -127,7 +130,12 @@ require('connection.php');
             ?>
         </fieldset>
     </div>
-    <div class="logout"><button>LOG OUT</button></div>
+    <div class="logout"><button onclick="logout()">LOG OUT</button></div>
 </div>
   </body>
+  <script>
+    function logout(){
+      window.location.href="login.php"
+    }
+  </script>
 </html>

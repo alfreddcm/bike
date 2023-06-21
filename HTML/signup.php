@@ -1,3 +1,46 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+require('connection.php');
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $idno = $_POST['idno'];
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $depname = $_POST['depname'];
+    $pass = $_POST['pass'];
+    $pass2 = $_POST['pass2'];
+
+    if ($pass!=$pass2){
+        echo "<script>alert('Password mismatch! '); window.location.href='signup.php';</script>";
+    }else{
+    $sql = "SELECT* from admin where idno=?";
+    $query = $conn->prepare($sql);
+    $query->bind_param("s", $idno);   
+    $query->execute();
+    
+    $query->store_result();
+
+    if($query->num_rows > 0){
+        echo "<script>alert('ID number is already in used! '); window.location.href='signup.php';</script>";
+    }else{
+
+        $sql1 = "INSERT INTO admin (idno,fname,lname,depname,pass) VALUES (?,?,?,?,?)";
+        $query1 = $conn->prepare($sql1);
+        $query1->bind_param("sssss",$idno,$fname,$lname,$depname,$pass);
+        $query1->execute();
+        $query1->store_result();
+
+            echo "<script>alert('Account added!');</script>";
+            echo "<script>alert('Redirecting to dashboard'); window.location.href='dashboard.php';</script>";
+    }
+}
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,13 +55,15 @@
             background-color: #f9df30;
         }
         .container {
+            margin-top:1.5in;
+            margin-left:auto;
+            margin-right:auto;
             display:block;
             background-color: white;
             border-radius:3px;
             box-shadow: 10px 10px 10px;
             padding: 20px;
             width:400px;
-            margin:auto;
         }
 
         .container input[type="text"],
@@ -33,8 +78,8 @@
 </head>
 <body>
     <div class="container">
-    <h2 align="center">Adding admin account</h2>
-<form action="process_signup.php" method="POST" onsubmit="return confirmSubmit();">
+    <h2 align="center">Add Account</h2>
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" onsubmit="return confirmSubmit();">
     <table>
         <tr>
             <td><label for="idno">ID Number:</label></td>
@@ -54,38 +99,21 @@
         </tr>
         <tr>
             <td><label for="pass">Password:</label></td>
-            <td><input type="password" name="pass" id="pass" required onkeyup="validatePassword(this.value)"></td>
+            <td><input type="password" name="pass" id="pass"></td>
+        </tr>
+        <tr>
+            <td><label for="pass">Confirm password:</label></td>
+            <td><input type="password" name="pass2" id="pass2"></td>
         </tr>
     </table>
-    <input type="submit" value="Signup">
+    <input type="submit" value="Signup" id="submit">
 </form>
 <a href="login.php">Already have an account?</a>
-
-<!-- Password validation indicator -->
-<span id="password-validation" class="invalid">At least one uppercase letter and one numeric digit</span>
-
+    </body>
+    </div>
+    </html>
 <script>
-    var password = document.getElementById("password-validation");
 
-    function validatePassword(password) {
-        const length = password.length >= 8,
-            upper = /[A-Z]/g,
-            numbers = /[0-9]/g,
-            symbols = /[\W_]/g;
 
-        var isValid = length && password.match(upper) && password.match(numbers) && password.match(symbols);
-
-        if(isvalid){
-
-        }
-
-        passwordValidation.classList.toggle("valid", isValid);
-        passwordValidation.classList.toggle("invalid", !isValid);
-    }
-
-    function confirmSubmit() {
-        var isConfirmed = confirm("Are you sure you want to submit the form?");
-        return isConfirmed;
-    }
 </script>
 

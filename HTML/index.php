@@ -84,7 +84,10 @@ $result = mysqli_query($conn, $sql);
   margin: 10px;
   border:none;
 }
-
+#return input[type="text"]{
+    text-align:center;
+    width: 90%;
+}
 
 </style>
 
@@ -148,11 +151,20 @@ $result = mysqli_query($conn, $sql);
 
 
 <script>
+ var currentDatetime = new Date();
+
+// Convert to UTC
+var utcDatetime = new Date(currentDatetime.getTime() + (currentDatetime.getTimezoneOffset() * 60000));
+utcDatetime.setHours(utcDatetime.getHours() + 16);
+var formattedDatetime = utcDatetime.toISOString().slice(0, 16);
+document.getElementById("datetime").value = formattedDatetime.replace("T", " ");
+document.getElementById("datetimer").value = formattedDatetime.replace("T", " ");
+
 
     function gologin(){
         window.location.href="login.php";
     }
-function validateForm() {
+    function validateForm() {
         const idno = document.getElementById("idno").value;
         const fname = document.getElementById("fname").value;
         const lname = document.getElementById("lname").value;

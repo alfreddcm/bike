@@ -128,13 +128,11 @@ function updatebike() {
     addDiv.style.display = "none";
     event.preventDefault();
 }
-function w3_open() {
-  document.getElementById("mySidebar").style.display = "block";
+
+function dash(){
+    window.location.href="dashboard.php";
 }
 
-function w3_close() {
-  document.getElementById("mySidebar").style.display = "none";
-}
 </script>
 
 <!DOCTYPE html>
@@ -145,20 +143,6 @@ function w3_close() {
 </head>
 
 <body>
-<div class="w3-sidebar w3-bar-block w3-collapse w3-card" style="width:200px;" id="mySidebar">
-  <button class="w3-bar-item w3-button w3-hide-large"
-  onclick="w3_close()">Close &times;</button>
-  <a href="#" class="w3-bar-item w3-button">Link 1</a>
-  <a href="#" class="w3-bar-item w3-button">Link 2</a>
-  <a href="#" class="w3-bar-item w3-button">Link 3</a>
-</div>
-
-<div class="w3-main" style="margin-left:200px">
-
-<div class="w3-teal">
-  <button class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
-  <div class="w3-container">
-
     <h1>Bike List</h1>
     <?php
     echo "Number of rows: " . $result->num_rows;
@@ -193,6 +177,7 @@ function w3_close() {
     ?>
 </div>
     <div>
+    <button onclick="dash()">Dashboard</button>
         <button onclick="showadd()">Add Bike</button>
         <button onclick="updatebike()">Edit Bike Information</button>
 

@@ -8,16 +8,15 @@ require_once 'connection.php';
 $bikeid = $_GET['rn'];
 $conn->close();
 
-
-
 }
-
 
 ?>
 <style>
+
     .con{
         margin:auto;
     }
+    
 </style>
 <script>
 var brokenParts = []; // Variable to store broken parts
