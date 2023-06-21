@@ -1,7 +1,5 @@
 <?php
-
-
-
+require('connection.php');
 
 
 ?>

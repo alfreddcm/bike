@@ -9,6 +9,29 @@ $bikeid = $_GET['rn'];
 $conn->close();
 
 }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+
+  $sql="INSERT INTO repairlist VALUES (?,?,)";
+  $sql1 = "UPDATE bikeinfo SET stat = ? WHERE bikeid = ?";
+          $query1 = $conn->prepare($sql2);
+          $status = "undermaintenance";
+          $query1->bind_param("ss", $status, $bikeid);
+          $query1->execute();
+  
+  
+  if ($stmt->execute()) {
+      if ($stmt->affected_rows > 0) {
+          echo "<script>alert('Record Deleted!'); window.location.href='bikelist.php';</script>";
+      } else {
+          echo "<script>alert('No record found to delete!'); window.location.href='bikelist.php';</script>";
+      }
+  } else {
+      echo "Error executing the delete query: " . $stmt->error;
+  }
+  
+  $stmt->close();
+  }
 
 ?>
 <style>
@@ -54,11 +77,11 @@ function togglePartStatus(checkbox) {
     }
   }
 
-  console.log(brokenParts); // Output the broken parts array to the console (optional)
+  console.log(brokenParts);
 }
 
 function saveBrokenParts(event) {
-  event.preventDefault(); // Prevent the form from submitting automatically
+  event.preventDefault();
 
   if (brokenParts.length === 0) {
     alert("Checklist is empty. Please check broken parts before saving.");
