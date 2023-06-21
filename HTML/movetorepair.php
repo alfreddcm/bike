@@ -1,46 +1,51 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+require('connection.php');
 
 global $bikeid;
-if (isset($_GET['rn'])) {
-require_once 'connection.php';
-$bikeid = $_GET['rn'];
-$conn->close();
-
+if (isset($_GET['rn']) && isset($_GET['studidno']) && isset($_GET['studfname'])) {
+    $bikeid = $_GET['rn'];
+    $studidno = $_GET['studidno'];
+    $studfname = $_GET['studfname'];
 }
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-
-  $sql="INSERT INTO repairlist VALUES (?,?,)";
-  $sql1 = "UPDATE bikeinfo SET stat = ? WHERE bikeid = ?";
-          $query1 = $conn->prepare($sql2);
-          $status = "undermaintenance";
-          $query1->bind_param("ss", $status, $bikeid);
-          $query1->execute();
-  
-  
-  if ($stmt->execute()) {
-      if ($stmt->affected_rows > 0) {
-          echo "<script>alert('Record Deleted!'); window.location.href='bikelist.php';</script>";
-      } else {
-          echo "<script>alert('No record found to delete!'); window.location.href='bikelist.php';</script>";
-      }
-  } else {
-      echo "Error executing the delete query: " . $stmt->error;
-  }
-  
-  $stmt->close();
-  }
 
 ?>
 <style>
-
-    .con{
-        margin:auto;
+    .con {
+        margin: auto;
     }
-    
 </style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adding Bike to Repair List</title>
+</head>
+<body>
+    <div class="con">
+        
+            <div>
+                <h1>Add Bike to Repair List</h1>
+                <label for="bikeid">Bike id: </label>
+                <?php echo $bikeid; ?><br>
+                <label for="partInput">Enter Broken Part:</label><br>
+                <input type="text" id="partInput">
+                <button onclick="addPart()">Add Part</button>
+            </div>
+            <div>
+                <ul id="partList"></ul>
+            </div>
+          <form action="">
+            <input type="submit" onclick="saveBrokenParts(event)" value="Confirm">
+        </form>
+        <button onclick="cancel()">Cancel</button>
+        <h1 id="k"></h1>
+    </div>
+
 <script>
 var brokenParts = []; // Variable to store broken parts
 
@@ -83,10 +88,7 @@ function togglePartStatus(checkbox) {
 function saveBrokenParts(event) {
   event.preventDefault();
 
-  if (brokenParts.length === 0) {
-    alert("Checklist is empty. Please check broken parts before saving.");
-    return;
-  }
+  if (confirm("Confirm?") == true) {
 
   var xhr = new XMLHttpRequest();
   var url = "saveparts.php?bikeid=" + encodeURIComponent(<?php echo $bikeid; ?>);
@@ -104,39 +106,27 @@ function saveBrokenParts(event) {
 
   var form = event.target.form;
   form.submit();
+
+}
+alert('Bike added to the list!');
+window.loaction.href="repairlist.php";
+} else {
+  alert('Action canceled');
 }
 
-
-
+  if (brokenParts.length === 0) {
+    alert("Checklist is empty. Please check broken parts before saving.");
+    return;
+  }
 </script>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Bike to Repair List</title>
-</head>
-<body>
-    <div class="con">
-<form>
-    <div>
-    <h1>Add Bike to Repair List</h1>
-    <label for="bikeid">Bike id: </label>
-    <?php echo $bikeid; ?><br>
-    <label for="partInput">Enter Broken Part:</label><br>
-    <input type="text" id="partInput">
-    <button onclick="addPart()">Add Part</button>
-</div>
-    
-    <div>
-       <ul id="partList"></ul> 
-    </div>
-    <input type="submit" onclick="saveBrokenParts(event)" value="Save Broken Parts">
-</form>
-    
-    <button onclick="/bikelist.php">Cancel</button>
-    <h1 id="k"></h1>
-
-
-</div>
 </body>
 </html>
+<?php
+
+
+
+?>
+
+
+

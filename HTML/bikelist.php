@@ -165,9 +165,6 @@ function dash(){
             echo "<img src='delete.png' alt='Delete' class='remove-icon'>";
             echo "<span class='remove-text'>Remove</span>";
             echo "</a>";
-            echo "<a href='movetorepair.php?rn=" . $row['bikeid'] . "' class='repair-button'>";
-            echo "<img src='repair.png' alt='Move to Repair' class='repair-icon'>";
-            echo "<span class='repair-text'>Move to Repair</span></a>";            
             echo "</div>";
         } 
     } else {

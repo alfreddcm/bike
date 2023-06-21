@@ -105,7 +105,7 @@ require('connection.php');
                 $query = $conn->query($sql);
                 $result = $query->fetch_all(MYSQLI_ASSOC);
                 $rowCount = count($result);
-                echo $rowCount . " borrowed Bike";
+                echo $rowCount . " borrowed bike";
             ?><br>
             
             <br>
@@ -114,20 +114,21 @@ require('connection.php');
                 $query = $conn->query($sql);
                 $result = $query->fetch_all(MYSQLI_ASSOC);
                 $rowCount = count($result);
-                echo $rowCount . " available Bike";
-            ?><br><a href="">See list</a>
+                echo $rowCount . " available bike";
+            ?><br><a href="historylist.php">See list</a>
 
         </fieldset>
 
         <fieldset class="fieldset3">
             <legend>REPAIR LIST</legend>
             <?php
-                $sql = "SELECT * FROM bikeinfo where stat='undermaintenance'";
+                $sql = "SELECT * FROM repairlist ";
                 $query = $conn->query($sql);
                 $result = $query->fetch_all(MYSQLI_ASSOC);
                 $rowCount = count($result);
-                echo $rowCount . " registered Bike";
-            ?>
+                echo $rowCount . " listed bike ";
+            ?><br><a href="repairlist.php">See list</a>
+
         </fieldset>
     </div>
     <div class="logout"><button onclick="logout()">LOG OUT</button></div>
