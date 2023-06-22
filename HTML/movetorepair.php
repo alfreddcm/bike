@@ -4,11 +4,34 @@ ini_set('display_errors', 1);
 require('connection.php');
 
 global $bikeid;
+global $studidno;
+global $studfname;
 if (isset($_GET['rn']) && isset($_GET['studidno']) && isset($_GET['studfname'])) {
     $bikeid = $_GET['rn'];
     $studidno = $_GET['studidno'];
     $studfname = $_GET['studfname'];
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $parts=$_POST['checklist'];
+
+  foreach($parts as $partslist ){
+    $sql="INSERT into repairlist (bikeid,	studino,	brokenparts,	dateadded) values ($bikeid,$studidno,$studfname,$partslist)";
+    $query=mysqli_query($conn,$sql);
+
+    if($query){
+      echo "<script>alert('Bike added to the repair list.'); window.location.href='historylist.php';</script>";
+    }else{
+      echo "<script>alert('Error adding to the list'); window.location.href='index.php';</script>";
+    }
+
+
+  }
+
+}
+
+
+
 
 ?>
 <style>
@@ -18,106 +41,110 @@ if (isset($_GET['rn']) && isset($_GET['studidno']) && isset($_GET['studfname']))
 </style>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adding Bike to Repair List</title>
+  <title>Bike Assembly Checklist</title>
+  <style>
+.container{
+  display:;
+  width:50rem;
+  box-shadow:12px 12px 12px;
+}
+.s{
+  display:flex;
+  justify-content:center;
+}
+
+  </style>
 </head>
 <body>
-    <div class="con">
-        
-            <div>
-                <h1>Add Bike to Repair List</h1>
-                <label for="bikeid">Bike id: </label>
-                <?php echo $bikeid; ?><br>
-                <label for="partInput">Enter Broken Part:</label><br>
-                <input type="text" id="partInput">
-                <button onclick="addPart()">Add Part</button>
-            </div>
-            <div>
-                <ul id="partList"></ul>
-            </div>
-          <form action="">
-            <input type="submit" onclick="saveBrokenParts(event)" value="Confirm">
-        </form>
-        <button onclick="cancel()">Cancel</button>
-        <h1 id="k"></h1>
+  <div>
+  <h1>Add Bike to Repair List</h1>
+  <label for="bikeid">Bike id: </label>
+                <?php echo $bikeid; ?><br> 
+                <label for="partInput">Check all that apply</label><br> 
+  </div>
+  <div class="container">
+  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+ 
+    <div class="column">
+      <fieldset>
+        <h2>FRAMESET</h2>
+        <input type="checkbox" id="frame" name="checklist[]" value="Frame">
+        <label for="frame">Frame</label><br>
+        <input type="checkbox" id="forks" name="checklist[]" value="Forks">
+        <label for="forks">Forks</label><br>
+        <input type="checkbox" id="headset" name="checklist[]" value="Headset">
+        <label for="headset">Headset</label><br>
+        <input type="checkbox" id="stem" name="checklist[]" value="Stem">
+        <label for="stem">Stem</label><br>
+        <input type="checkbox" id="handlebar" name="checklist[]" value="Handlebar">
+        <label for="handlebar">Handlebar</label><br>
+        <input type="checkbox" id="saddle" name="checklist[]" value="Saddle">
+        <label for="saddle">Saddle</label><br>
+        <input type="checkbox" id="seatPost" name="checklist[]" value="Seat post">
+        <label for="seatPost">Seat post</label><br>
+      </fieldset>
     </div>
 
+    <div class="column">
+      <fieldset>
+        <h2>GROUPSET</h2>
+        <input type="checkbox" id="frontMech" name="checklist[]" value="Front Derailleurs">
+        <label for="frontMech">Front Derailleurs</label><br>
+        <input type="checkbox" id="rearMech" name="checklist[]" value="Rear Derailleurs">
+        <label for="rearMech">Rear Derailleurs</label><br>
+        <input type="checkbox" id="frontBrakes" name="checklist[]" value="Brakeset">
+        <label for="frontBrakes">Brakeset</label><br>
+        <input type="checkbox" id="shifters" name="checklist[]" value="Brake Cable">
+        <label for="shifters">Brake Cable</label><br>
+        <input type="checkbox" id="shifters2" name="checklist[]" value="Shifters">
+        <label for="shifters2">Shifters</label><br>
+        <input type="checkbox" id="shiftersCable" name="checklist[]" value="Shifters Cable">
+        <label for="shiftersCable">Shifters Cable</label><br>
+        <input type="checkbox" id="cassetteHub" name="checklist[]" value="Cassette Hub">
+        <label for="cassetteHub">Cassette Hub</label><br>
+        <input type="checkbox" id="cogs" name="checklist[]" value="Cogs">
+        <label for="cogs">Cogs</label><br>
+        <input type="checkbox" id="crankset" name="checklist[]" value="Crankset">
+        <label for="crankset">Crankset</label><br>
+        <input type="checkbox" id="chain" name="checklist[]" value="Chain">
+        <label for="chain">Chain</label><br>
+        <input type="checkbox" id="pedals" name="checklist[]" value="Pedals">
+        <label for="pedals">Pedals</label><br>
+        <input type="checkbox" id="bottleCages" name="checklist[]" value="Bottle Cages">
+        <label for="bottleCages">Bottle Cages</label><br>
+
+      </fieldset>
+    </div>
+    
+    <div class="column">
+      <fieldset>
+        <h2>WHEEL SET</h2>
+        <input type="checkbox" id="wheels" name="checklist[]" value="Rims">
+        <label for="wheels">Rims</label><br>
+        <input type="checkbox" id="spokes" name="checklist[]" value="Spokes and Nipples">
+        <label for="spokes">Spokes and Nipples</label><br>
+        <input type="checkbox" id="tyres" name="checklist[]" value="Tires">
+        <label for="tyres">Tires</label><br>
+        <input type="checkbox" id="hub" name="checklist[]" value="Hub">
+        <label for="hub">Hub</label><br>
+        <input type="checkbox" id="spacers" name="checklist[]" value="Spacers">
+        <label for="spacers">Spacers</label><br>
+      </fieldset>
+    </div>
+  
+  
+  <div class="s">
+    <input type="submit" value="Submit">
+    <button onclick="cancel()">Cancel</button>
+  </div></div>
+</form>
+
+        
+
 <script>
-var brokenParts = []; // Variable to store broken parts
 
-function addPart() {
-  var partInput = document.getElementById("partInput");
-  var partList = document.getElementById("partList");
-  var partText = partInput.value;
-
-  if (partText !== '') {
-    var partItem = document.createElement("li");
-    var checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.onclick = function() {
-      togglePartStatus(checkbox);
-    };
-
-    partItem.appendChild(checkbox);
-    partItem.appendChild(document.createTextNode(partText));
-    partList.appendChild(partItem);
-    partInput.value = '';
-  }
-  return;
-}
-
-function togglePartStatus(checkbox) {
-  var partText = checkbox.nextSibling.textContent;
-
-  if (checkbox.checked) {
-    brokenParts.push(partText);
-  } else {
-    var index = brokenParts.indexOf(partText);
-    if (index !== -1) {
-      brokenParts.splice(index, 1);
-    }
-  }
-
-  console.log(brokenParts);
-}
-
-function saveBrokenParts(event) {
-  event.preventDefault();
-
-  if (confirm("Confirm?") == true) {
-
-  var xhr = new XMLHttpRequest();
-  var url = "saveparts.php?bikeid=" + encodeURIComponent(<?php echo $bikeid; ?>);
-  var params = "brokenParts=" + JSON.stringify(brokenParts);
-  xhr.open("POST", url, true);
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      console.log(xhr.responseText); // Optional: Output the response from the server
-    }
-  };
-
-  xhr.send(params);
-
-  var form = event.target.form;
-  form.submit();
-
-}
-alert('Bike added to the list!');
-window.loaction.href="repairlist.php";
-} else {
-  alert('Action canceled');
-}
-
-  if (brokenParts.length === 0) {
-    alert("Checklist is empty. Please check broken parts before saving.");
-    return;
-  }
 </script>
 
 </body>

@@ -13,10 +13,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pass = $_POST['pass'];
     $pass2 = $_POST['pass2'];
 
+    $uppercase = preg_match('@[A-Z]@', $pass);
+    $lowercase = preg_match('@[a-z]@', $pass);
+    $number    = preg_match('@[0-9]@', $pass);
+    $specialChars = preg_match('@[^\w]@', $pass);
+
+if(!$uppercase || !$lowercase || !$number || !$specialChars || strlen($pass) < 8) {
+    echo "<script>alert('Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.');</script>";
+}else{
     if ($pass!=$pass2){
         echo "<script>alert('Password mismatch! '); window.location.href='signup.php';</script>";
     }else{
-    $sql = "SELECT* from admin where idno=?";
+    $sql = "SELECT * from admin where idno=?";
     $query = $conn->prepare($sql);
     $query->bind_param("s", $idno);   
     $query->execute();
@@ -37,6 +45,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "<script>alert('Redirecting to dashboard'); window.location.href='dashboard.php';</script>";
     }
 }
+    
+}
+   
 }
 
 ?>
@@ -67,6 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .container input[type="text"],
+        .container input[type="number"],
         .container input[type="password"] {
             font-size:15px;
             border: none;
@@ -83,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <table>
         <tr>
             <td><label for="idno">ID Number:</label></td>
-            <td><input type="text" name="idno" id="idno" required></td>
+            <td><input type="number" name="idno" id="idno" required></td>
         </tr>
         <tr>
             <td><label for="fname">First Name:</label></td>

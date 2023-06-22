@@ -15,8 +15,11 @@ require('connection.php');
 </head>
       <style>
           body {
-              height: 100%;
-              margin: 0;
+            height: 100%;
+    font-family: Poppins-Regular, sans-serif;
+    background-color: #E7E9EB;
+    background-image: url("bg.png");
+    background-repeat: repeat-y;
           }
           .con{
             width: 80%;
@@ -107,15 +110,7 @@ require('connection.php');
                 $rowCount = count($result);
                 echo $rowCount . " borrowed bike";
             ?><br>
-            
-            <br>
-            <?php
-                $sql = "SELECT * FROM bikeinfo where stat='available'";
-                $query = $conn->query($sql);
-                $result = $query->fetch_all(MYSQLI_ASSOC);
-                $rowCount = count($result);
-                echo $rowCount . " available bike";
-            ?><br><a href="historylist.php">See list</a>
+            <br><a href="historylist.php">See list</a>
 
         </fieldset>
 

@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bikeid = mysqli_real_escape_string($conn, $_POST['bikeidr']);
     $studid = mysqli_real_escape_string($conn, $_POST['idnor']);
     $datetime = mysqli_real_escape_string($conn, $_POST['datetimer']);
-
+    
     $sql ="SELECT * FROM history WHERE studidno = ? AND dtreturn is NULL"; 
     $query=$conn->prepare($sql);
     $query->bind_param("s",$studid);

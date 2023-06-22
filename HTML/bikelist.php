@@ -38,9 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Deleting
-if (isset($_GET['rn'])) {
+if(isset($_GET['delete_id']))
+{
 
-        $bikeid = $_GET['rn'];
+        $bikeid = $_GET['delete_id'];
         $stmt = $conn->prepare("DELETE FROM bikeinfo WHERE bikeid = ?");
         $stmt->bind_param("s", $bikeid);
         
@@ -55,7 +56,8 @@ if (isset($_GET['rn'])) {
         }
         
         $stmt->close();
-    }
+
+}
 
 ?>
 
@@ -133,6 +135,15 @@ function dash(){
     window.location.href="dashboard.php";
 }
 
+function delete_id(bikeid)
+{
+ if(confirm('Sure To Remove This Record ?'))
+ {
+  window.location.href='bikelist.php?delete_id='+bikeid;
+ }
+}
+
+
 </script>
 
 <!DOCTYPE html>
@@ -153,7 +164,6 @@ function dash(){
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             echo "<div class='grid-item'>";
-
             echo "<table>";
             echo "<tr><td>Bike ID:</td><td>" . $row["bikeid"] . "</td></tr>";
             echo "<tr><td>Type:</td><td>" . $row["biketype"] . "</td></tr>";
@@ -161,10 +171,16 @@ function dash(){
             echo "<tr><td>Department:</td><td>" . $row["bikedep"] . "</td></tr>";
             echo "<tr><td>Status:</td><td>" . $row["stat"] . "</td></tr>";
             echo "</table>";
-            echo "<a href='?rn={$row['bikeid']}' class='remove-button'>";
-            echo "<img src='delete.png' alt='Delete' class='remove-icon'>";
-            echo "<span class='remove-text'>Remove</span>";
-            echo "</a>";
+            ?>
+            <a href="javascript:delete_id(<?php echo $row["bikeid"]; ?>)"><img src="delete.png" alt="Delete" class='remove-icon' />
+            <span class='remove-text'>Remove</span>
+        
+        </a>
+            <?php
+            //echo "<a href='?rn={$row['bikeid']}' class='remove-button' onclick='return confirm('Are You Sure ?')'>";
+            //echo "<img src='delete.png' alt='Delete' class='remove-icon'>";
+            //echo "";
+            //echo "</a>";
             echo "</div>";
         } 
     } else {
@@ -182,7 +198,7 @@ function dash(){
                 <h1>Adding bike</h1>
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                     <label for="bikeid">Bike ID:</label>
-                    <input type="text" id="bikeid" name="bikeid" required>
+                    <input type="number" id="bikeid" name="bikeid" required>
                     <label for="biketype">Bike Type:</label>
                     <input type="text" id="biketype" name="biketype" required>
                     <label for="bikecolor">Color:</label>
@@ -198,10 +214,10 @@ function dash(){
                 <h1>Edit Bike Information</h1>
                 <form action="updatebike.php" method="POST">
                     <label for="bikeid2">Bike ID:</label>
-                    <input type="text" id="bikeid2" name="bikeid2" required>
+                    <input type="number" id="bikeid2" name="bikeid2" required>
                     <br>    
                     <label for="newbikeid">New Bike ID:</label>
-                    <input type="text" id="newbikeid" name="newbikeid" required>
+                    <input type="number" id="newbikeid" name="newbikeid" required>
                     <br>
                     <label for="biketype">New Bike Type:</label>
                     <input type="text" id="biketype" name="biketype" required>

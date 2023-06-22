@@ -82,7 +82,7 @@ if (isset($_GET['remove'])) {
 </head>
 
 <body>
-    <h1>History List</h1>
+    <h1>Repair List</h1>
     <?php
     echo "Number of rows: " . $result->num_rows;
     ?>

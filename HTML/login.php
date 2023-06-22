@@ -36,8 +36,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 ?>
 <style>
     body{
-            font-family: Poppins-Regular, sans-serif;
-            background-color: #f9df30;
+        height: 100%;
+    font-family: Poppins-Regular, sans-serif;
+    background-color: #E7E9EB;
+    background-image: url("bg.png");
+    background-repeat: repeat-y;
         }
         .container {
             margin-top:1.5in;
@@ -52,6 +55,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
 
         .container input[type="text"],
+        .container input[type="number"],
         .container input[type="password"] {
             font-size:15px;
             border: none;
@@ -60,6 +64,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             margin-bottom: 10px;
         }
 </style>
+<script>
+     function validateForm() {
+        const idno = document.getElementById("idno").value;
+        const fname = document.getElementById("pass").value;
+        
+        if (isNaN(idno))  {
+    alert("INputed ID no is not a number!");
+    return false;
+         }
+
+        if (idno === ""  || pass === "") {
+            alert("Please fill in all required fields.");
+            return false;
+        }
+        return true;
+}
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -80,10 +101,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         
     
     <h2>Login</h2>
-    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" onsubmit="return validateForm()";>
             <table>
             <tr><td><label for="idno">ID No : </label></td>
-                <td><input type="text" name="idno" id="idno" required></td>
+                <td><input type="number" name="idno" id="idno" required></td>
             </tr>
             <tr><td><label for="pass">Password: </label></td>
                 <td><input type="password" name="pass" id="pass" required></td>
@@ -97,10 +118,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </body>
 </html>
 <script>
+    
     function gohome(){
         window.location.href="index.php";
     }
     function gosignup(){
         window.location.href="signup.php";
     }
+
+    
 </script>

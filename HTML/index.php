@@ -18,11 +18,13 @@ $result = mysqli_query($conn, $sql);
 </head>
 <style>
     body{
-    
-    display:flex;        
+        
+    display:flex;       
 	height: 100%;
     font-family: Poppins-Regular, sans-serif;
-    background-color: #f9df30;
+    background-color: #E7E9EB;
+    background-image: url("bg.png");
+    background-repeat: repeat-y;
 }
         
 .column1 {
@@ -45,6 +47,7 @@ $result = mysqli_query($conn, $sql);
 }
 
 .con{
+    transform: scale(1.20);
     background-color:white;
     border-radius:3px;
     margin-top:6rem;
@@ -52,11 +55,12 @@ $result = mysqli_query($conn, $sql);
     box-shadow:10px 10px 10px;
     padding:20px;
 }
-.con input[type="text"]{
+.con input[type="text"],
+input[type="number"]{
     margin-top:2px;
     margin-bottom:3px;
     padding:5px;
-    font-size:15px;
+    
     border: none;
     border-bottom: 1px solid black;
 }
@@ -71,20 +75,22 @@ $result = mysqli_query($conn, $sql);
     width:100%;
 }
 .side{
-    
+
   display: flex;
   flex-direction: row-reverse;
-  align-content:space-around;
+  align-content:center;
   padding:20px;
 }
 .side button{
+    font-size:18px;
     cursor: pointer;
     background-color: transparent;
   text-decoration:none;
   margin: 10px;
   border:none;
 }
-#return input[type="text"]{
+#return input[type="text"],
+input[type="number"]{
     text-align:center;
     width: 90%;
 }
@@ -92,6 +98,7 @@ $result = mysqli_query($conn, $sql);
 </style>
 
 <body>
+        
     <div class="column1">
         <h1>Welcome to Bike Management System</h1>
         <div class="p">
@@ -124,7 +131,7 @@ $result = mysqli_query($conn, $sql);
                     <?php endwhile; ?>
                     </select>
 
-                    <input type="text" name="idno" id="idno" placeholder="ID No" require>
+                    <input type="number" name="idno" id="idno" placeholder="ID No" require>
                     <input type="text" name="fname" id="fname" placeholder="First Name" require>
                     <input type="text" name="lname" id="lname" placeholder="Last Name" require><br>
                     <input type="text" name="course" id="course" placeholder="Course" require>
@@ -139,7 +146,7 @@ $result = mysqli_query($conn, $sql);
                     <div id="return">
                         <form action="return.php" method="POST" id="returnform" onsubmit="return validateForm2();">
                         <label for="">Enter bike id:</label><br>
-                            <input type="text" name="bikeidr" id="bikeidr" placeholder="Bike ID">
+                            <input type="number" name="bikeidr" id="bikeidr" placeholder="Bike ID">
                             <input type="text" name="idnor" id="idnor" placeholder="ID No"><br>
                             <input type="datetime-local" name="datetimer" id="datetimer" require> 
                             <br>
@@ -153,7 +160,6 @@ $result = mysqli_query($conn, $sql);
 <script>
  var currentDatetime = new Date();
 
-// Convert to UTC
 var utcDatetime = new Date(currentDatetime.getTime() + (currentDatetime.getTimezoneOffset() * 60000));
 utcDatetime.setHours(utcDatetime.getHours() + 16);
 var formattedDatetime = utcDatetime.toISOString().slice(0, 16);
@@ -170,22 +176,34 @@ document.getElementById("datetimer").value = formattedDatetime.replace("T", " ")
         const lname = document.getElementById("lname").value;
         const course = document.getElementById("course").value;
         const dep = document.getElementById("dep").value;
+        
+        if (isNaN(idno))  {
+    alert("INputed ID no is not a number!");
+    return false;
+         }
 
-        if (idno === "" || fname === "" || lname === "" || course=== "" || dep=== "" ) {
+        if (idno === ""  || fname === "" || lname === "" || course=== "" || dep=== "" ) {
             alert("Please fill in all required fields.");
             return false;
         }
-        
         return true;
+
     }
     function validateForm2() {
+
         const idno = document.getElementById("idnor").value;
         const bikeid = document.getElementById("bikeidr").value;
+        
+        if (isNaN(idno) || isNaN(bikeid))  {
+        alert('Please check your ID number or bikeid!');
+        return false;
+             }
 
         if (idno === "" || bikeid === "") {
             alert("Please fill in all required fields.");
             return false;
         }     
+
         return true;
     }
     const statusSelect = document.getElementById('status');
