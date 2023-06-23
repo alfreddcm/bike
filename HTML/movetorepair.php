@@ -10,8 +10,6 @@ if (isset($_GET['rn']) && isset($_GET['studidno']) && isset($_GET['studfname']))
     $bikeid = $_GET['rn'];
     $studidno = $_GET['studidno'];
     $studfname = $_GET['studfname'];
-}
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $parts = $_POST['checklist'];
@@ -29,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else {
     echo "<script>alert('Error adding to the list'); window.location.href='index.php';</script>";
   }
+}
 }
 
 ?>
@@ -142,7 +141,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
 
 <script>
-
+function delete_id(bikeid)
+{
+ if(confirm('Sure To Remove This Record ?'))
+ {
+  window.location.href='bikelist.php?delete_id='+bikeid;
+ }
+}
 </script>
 
 </body>

@@ -7,14 +7,15 @@ $sql = "SELECT * FROM repairlist";
 $result = $conn->query($sql);
 
 // Removing from history
-if (isset($_GET['remove'])) {
-    $bikeid = $_GET['remove'];
+if (isset($_GET['delete_id'])) {
+    $bikeid = $_GET['delete_id'];
 
-    $deleteStmt = $conn->prepare("DELETE FROM reapairlist WHERE bikeid = ?");
+    $deleteStmt = $conn->prepare("DELETE FROM repairlist WHERE bikeid = ?");
     $deleteStmt->bind_param("s", $bikeid);
     $updatestat="UPDATE bikeinfo set stat='avialable' where bikeid=?";
-    $update->bind_param("s", $bikeid);
-    $update->execute();
+    $updatestat=$conn->prepare($updatestat);
+    $updatestat->bind_param("s", $bikeid);
+    $updatestat->execute();
 
     if ($deleteStmt->execute() && $deleteStmt->affected_rows > 0) {
         echo "<script>alert('Bike removed from history!'); window.location.href='historylist.php';</script>";
@@ -78,21 +79,25 @@ if (isset($_GET['remove'])) {
         function dash(){
     window.location.href="dashboard.php";
 }
+function delete_id(bikeid)
+{
+ if(confirm('Sure To Remove This Record ?'))
+ {
+  window.location.href='repairlist.php?delete_id='+bikeid;
+ }
+}
     </script>
 </head>
 
 <body>
     <h1>Repair List</h1>
-    <?php
-    echo "Number of rows: " . $result->num_rows;
-    ?>
-
     <table>
         <tr>
             <th>Bikeid</th>
             <th>Student ID</th>
             <th>Broken parts</th>
             <th>Date</th>
+            <th>Action</th>
         </tr>
         <?php
         if ($result->num_rows > 0) {
@@ -103,11 +108,13 @@ if (isset($_GET['remove'])) {
                 echo "<td>" . $row["brokenparts"] . "</td>";
                 echo "<td>" . $row["dateadded"] . "</td>";
                 echo "<td>";
-                echo "<a class='remove-button' href='repairlist.php?remove=" . $row["bikeid"] . "'>Remove</a>";
-
+                ?>
+                <a href="javascript:delete_id(<?php echo $row["bikeid"]; ?>)"><img src="delete.png" alt="Delete" class='remove-icon' />
+                <span class='remove-text'>Remove</span></a>
+                <?php
             }
         } else {
-            echo "<tr><td colspan='9'>No records found.</td></tr>";
+            echo "<tr><td colspan='5' >No records found.</td></tr>";
         }
         ?>
         <button onclick="dash()">Dashboard</button>

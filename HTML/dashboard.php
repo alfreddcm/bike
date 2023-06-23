@@ -63,13 +63,13 @@ require('connection.php');
               font-size: large;
           }
           .fieldset1{
-            background-color: red;
+            background-color: orange;
           }
           .fieldset1:hover{
             background-color: pink;
           }
           .fieldset2{
-            background-color: blue;
+            background-color: orange;
           }
           .fieldset3{
             background-color: orange; 
@@ -110,6 +110,17 @@ require('connection.php');
                 $rowCount = count($result);
                 echo $rowCount . " borrowed bike";
             ?><br>
+            <?php
+                $sql = "SELECT * FROM bikeinfo where stat='available'";
+                $query = $conn->query($sql);
+                $result = $query->fetch_all(MYSQLI_ASSOC);
+                $rowCount = count($result);
+                echo $rowCount . " available bike";
+            ?>
+            
+            
+            
+            <br>
             <br><a href="historylist.php">See list</a>
 
         </fieldset>
