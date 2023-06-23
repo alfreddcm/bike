@@ -12,25 +12,23 @@ if (isset($_GET['rn']) && isset($_GET['studidno']) && isset($_GET['studfname']))
     $studfname = $_GET['studfname'];
 }
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $parts=$_POST['checklist'];
+  $parts = $_POST['checklist'];
 
-    $partsString = implode(', ', $parts);
+  $partsString = implode(', ', $parts);
 
-    $sql="INSERT into repairlist (bikeid,	studino,	brokenparts,	dateadded) values ($bikeid,$studidno,$studfname,$partslist)";
-    $query=mysqli_query($conn,$sql);
+  $sql = "INSERT INTO repairlist (bikeid, studino, brokenparts, dateadded) VALUES ('$bikeid', '$studidno', '$studfname', '$partsString')";
+  $query = mysqli_query($conn, $sql);
 
-    if($query){
-      $sql2="UPDATE bikeinfo set stat='undermaintence' WHERE bikeidno = $bikeid";
-      $query=mysqli_query($conn,$sql2);
+  if ($query) {
+    $sql2 = "UPDATE bikeinfo SET stat = 'undermaintenance' WHERE bikeidno = '$bikeid'";
+    $query2 = mysqli_query($conn, $sql2);
 
-      echo "<script>alert('Bike added to the repair list.'); window.location.href='historylist.php';</script>";
-    }else{
-      echo "<script>alert('Error adding to the list'); window.location.href='index.php';</script>";
-    }
-
-
-
+    echo "<script>alert('Bike added to the repair list.'); window.location.href='historylist.php';</script>";
+  } else {
+    echo "<script>alert('Error adding to the list'); window.location.href='index.php';</script>";
+  }
 }
 
 ?>
