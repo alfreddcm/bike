@@ -3,6 +3,28 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require('connection.php');
+session_start();
+
+
+if (isset($_GET['idno'])){
+  $idno = $_GET['idno'];
+
+  $sql="SELECT * from admin where idno= ? ";
+  $query=$conn->prepare($sql);
+  $query->bind_param("s",$idno);
+  $query->execute();
+  $result = $query->get_result();
+  $row = $result->fetch_assoc();
+
+$fname = $row['fname'];
+$lname = $row['lname'];
+$depname = $row['depname'];
+
+$_SESSION['fname'] = $fname;
+$_SESSION['lname'] = $lname;
+$_SESSION['depname'] = $depname;
+
+}
 
 ?>
 <!DOCTYPE html>
@@ -86,8 +108,9 @@ require('connection.php');
 <body>
   <div class="con">
   <div class="user">
-    <h1>hello Jaymar Chaves</h1>
-    <h3>CCSICT Department</h3>
+  <h1>Hello <?php echo $_SESSION['fname'] . " " . $_SESSION['lname']; ?></h1>
+<h3><?php echo $_SESSION['depname']; ?> Department</h3>
+
   </div>
     <div class="dashboard">
         <fieldset class="fieldset1">

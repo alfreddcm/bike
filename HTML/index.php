@@ -160,9 +160,9 @@ input[type="number"]{
 <script>
  var currentDatetime = new Date();
 
-var utcDatetime = new Date(currentDatetime.getTime() + (currentDatetime.getTimezoneOffset() * 60000));
-utcDatetime.setHours(utcDatetime.getHours() + 16);
-var formattedDatetime = utcDatetime.toISOString().slice(0, 16);
+var Datetime = new Date(currentDatetime.getTime() + (currentDatetime.getTimezoneOffset() * 60000));
+Datetime.setHours(Datetime.getHours() + 16);
+var formattedDatetime = Datetime.toISOString().slice(0, 16);
 document.getElementById("datetime").value = formattedDatetime.replace("T", " ");
 document.getElementById("datetimer").value = formattedDatetime.replace("T", " ");
 
@@ -171,25 +171,34 @@ document.getElementById("datetimer").value = formattedDatetime.replace("T", " ")
         window.location.href="login.php";
     }
     function validateForm() {
+        if (confirm("Are you sure you want to submit the form?")) {
+                return true;
+            } else {
+                return false;
+            }
+        
         const idno = document.getElementById("idno").value;
         const fname = document.getElementById("fname").value;
         const lname = document.getElementById("lname").value;
         const course = document.getElementById("course").value;
         const dep = document.getElementById("dep").value;
         
-        if (isNaN(idno))  {
-    alert("INputed ID no is not a number!");
-    return false;
-         }
-
         if (idno === ""  || fname === "" || lname === "" || course=== "" || dep=== "" ) {
             alert("Please fill in all required fields.");
             return false;
         }
         return true;
 
+
+
     }
     function validateForm2() {
+
+        if (confirm("Are you sure you want to submit the form?")) {
+                return true;
+            } else {
+                return false;
+            }
 
         const idno = document.getElementById("idnor").value;
         const bikeid = document.getElementById("bikeidr").value;
@@ -205,6 +214,8 @@ document.getElementById("datetimer").value = formattedDatetime.replace("T", " ")
         }     
 
         return true;
+
+        
     }
     const statusSelect = document.getElementById('status');
     const borrowDiv = document.getElementById('borrow');

@@ -14,6 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $department = $_POST['dep'];
     $datetime=$_POST['datetime'];
 
+
+    //still error lol
     $sql = "SELECT * FROM history WHERE bikeid= ? and studidno= ? and studfname = ? and studlname= ?";
     $query = $conn->prepare($sql);
     $query->bind_param("ssss", $bikeid, $studid, $fname, $lname);   
@@ -22,7 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $row = $query->get_result()->fetch_array(MYSQLI_ASSOC);
 
 if($row>0){
-
     if($row['dtreturn']== NULL){
         echo "<script>alert('You cannot borrow a bike. Please return the borrowed bike first.'); window.location.href='index.php';</script>";
     }else{
@@ -69,10 +70,6 @@ if($row>0){
 
 
 }
-
-
-    
-
     $query1->close();
     $query2->close();
 }

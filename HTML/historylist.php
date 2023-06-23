@@ -22,31 +22,6 @@ if (isset($_GET['remove'])) {
     $deleteStmt->close();
 }
 
-// Moving to repair
-if (isset($_GET['repair'])) {
-    $bikeid = $_GET['repair'];
-
-    $deleteStmt = $conn->prepare("DELETE FROM history WHERE bikeid = ?");
-    $deleteStmt->bind_param("s", $bikeid);
-
-    if ($deleteStmt->execute() && $deleteStmt->affected_rows > 0) {
-        $insertStmt = $conn->prepare("INSERT INTO repairlist (bikeid) VALUES (?)");
-        $insertStmt->bind_param("s", $bikeid);
-
-        if ($insertStmt->execute() && $insertStmt->affected_rows > 0) {
-            echo "<script>alert('Bike moved to repair list!'); window.location.href='historylist.php';</script>";
-        } else {
-            echo "<script>alert('Error moving bike to repair list!');</script>";
-        }
-
-        $insertStmt->close();
-    } else {
-        echo "<script>alert('Error removing bike from history!');</script>";
-    }
-
-    $deleteStmt->close();
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -135,8 +110,8 @@ if (isset($_GET['repair'])) {
                 echo "<td>" . $row["dtreturn"] . "</td>";
                 echo "<td>";
                 echo "<a class='remove-button' href='historylist.php?remove=" . $row["bikeid"] . "'>Remove</a>";
-                echo "<a href='movetorepair.php?rn=" . $row['bikeid'] . "&studidno=" . $row['studidno'] . "&studfname=" . $row['studfname'] . "' class='repair-button'>";
-                echo "<img src='repair.png' alt='Move to Repair' class='repair-icon'>";
+                echo "<a href='movetorepair.php?rn=" . $row['bikeid'] . "&studidno=" . $row['studidno'] . "&studfname=" . $row['studfname'] .  "&studlname=" . $row['studlname'] . "' class='repair-button'>";
+                echo "<img src='repair.png' alt='Move to Repair' class='repair-icon' width='20px' height='20px'>";
                 echo "<span class='repair-text'>Move to Repair</span></a>";
                 echo "</td>";
                 echo "</tr>";

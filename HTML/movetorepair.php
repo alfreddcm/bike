@@ -2,35 +2,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require('connection.php');
-
-global $bikeid;
-global $studidno;
-global $studfname;
-if (isset($_GET['rn']) && isset($_GET['studidno']) && isset($_GET['studfname'])) {
-    $bikeid = $_GET['rn'];
-    $studidno = $_GET['studidno'];
-    $studfname = $_GET['studfname'];
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $parts = $_POST['checklist'];
-
-  $partsString = implode(', ', $parts);
-
-  $sql = "INSERT INTO repairlist (bikeid, studino, brokenparts, dateadded) VALUES ('$bikeid', '$studidno', '$studfname', '$partsString')";
-  $query = mysqli_query($conn, $sql);
-
-  if ($query) {
-    $sql2 = "UPDATE bikeinfo SET stat = 'undermaintenance' WHERE bikeidno = '$bikeid'";
-    $query2 = mysqli_query($conn, $sql2);
-
-    echo "<script>alert('Bike added to the repair list.'); window.location.href='historylist.php';</script>";
-  } else {
-    echo "<script>alert('Error adding to the list'); window.location.href='index.php';</script>";
-  }
-}
-}
-
 ?>
+
 <style>
     .con {
         margin: auto;
@@ -40,32 +13,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Bike Assembly Checklist</title>
-  <style>
-.container{
-  display:;
-  width:50rem;
-  box-shadow:12px 12px 12px;
-}
-.s{
-  display:flex;
-  justify-content:center;
-}
+    <title>Bike Assembly Checklist</title>
+    <style>
+        .container {
+            display:;
+            width: 50rem;
+            box-shadow: 12px 12px 12px;
+        }
 
-  </style>
+        .s {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
-  <div>
-  <h1>Add Bike to Repair List</h1>
-  <label for="bikeid">Bike id: </label>
-                <?php echo $bikeid; ?><br> 
-                <label for="partInput">Check all that apply</label><br> 
-  </div>
-  <div class="container">
-  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
- 
-    <div class="column">
-      <fieldset>
+<div>
+    <h1>Add Bike to Repair List</h1>
+    <label for="bikeid">Bike id: <?php 
+    if (isset($_GET['rn']) && isset($_GET['studidno'])) {
+      $bikeid = $_GET['rn'];
+      $studidno = $_GET['studidno'];
+
+      $sql="SELECT * from repairlist where bikeid= ?";
+      $query=$conn->prepare($sql);
+      $query->bind_param("s",$bikeid);
+      $query->execute();
+
+      if($query->affected_row>0){
+        echo "<script>alert('Bike is already on the list!'); window.location.href='history.php';</script>";
+      }
+
+
+    echo $bikeid ?></label><br>
+    <label for="partInput">Check all that apply</label><br>
+</div>
+<div class="container">
+<form action="inschecklist.php?bikeid=<?php echo $bikeid; ?>&studidno=<?php echo $studidno; }?>" method="POST" onsubmit="return confirmSubmit();">
+        <div class="column">
+        <fieldset>
         <h2>FRAMESET</h2>
         <input type="checkbox" id="frame" name="checklist[]" value="Frame">
         <label for="frame">Frame</label><br>
@@ -82,10 +68,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="checkbox" id="seatPost" name="checklist[]" value="Seat post">
         <label for="seatPost">Seat post</label><br>
       </fieldset>
-    </div>
-
-    <div class="column">
-      <fieldset>
+        </div>
+        <div class="column">
+        <fieldset>
         <h2>GROUPSET</h2>
         <input type="checkbox" id="frontMech" name="checklist[]" value="Front Derailleurs">
         <label for="frontMech">Front Derailleurs</label><br>
@@ -113,10 +98,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="bottleCages">Bottle Cages</label><br>
 
       </fieldset>
-    </div>
-    
-    <div class="column">
-      <fieldset>
+        </div>
+        <div class="column">
+        <fieldset>
         <h2>WHEEL SET</h2>
         <input type="checkbox" id="wheels" name="checklist[]" value="Rims">
         <label for="wheels">Rims</label><br>
@@ -129,34 +113,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="checkbox" id="spacers" name="checklist[]" value="Spacers">
         <label for="spacers">Spacers</label><br>
       </fieldset>
-    </div>
-  
-  
-  <div class="s">
-    <input type="submit" value="Submit">
-    <button onclick="cancel()">Cancel</button>
-  </div></div>
-</form>
-
-        
+        </div>
+        <div class="s">
+            <input type="submit" value="Submit">
+            <button onclick="cancel()">Cancel</button>
+        </div>
+    </form>
+</div>
 
 <script>
-function delete_id(bikeid)
-{
- if(confirm('Sure To Remove This Record ?'))
- {
-  window.location.href='bikelist.php?delete_id='+bikeid;
- }
-}
+    function confirmSubmit() {
+        return confirm("Are you sure you want to submit the form?");
+    }
 </script>
 
 </body>
 </html>
-<?php
-
-
-
-?>
-
-
-

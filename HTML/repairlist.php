@@ -3,17 +3,19 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require_once 'connection.php';
-$sql = "SELECT * FROM repairlist";
+$sql = "SELECT bikeid,studidno,brokenparts,dateadded FROM repairlist";
 $result = $conn->query($sql);
 
-// Removing from history
+// Removing from repairlist
 if (isset($_GET['delete_id'])) {
     $bikeid = $_GET['delete_id'];
 
     $deleteStmt = $conn->prepare("DELETE FROM repairlist WHERE bikeid = ?");
     $deleteStmt->bind_param("s", $bikeid);
-    $updatestat="UPDATE bikeinfo set stat='avialable' where bikeid=?";
-    $updatestat=$conn->prepare($updatestat);
+
+
+    $sql="UPDATE bikeinfo set stat='available' where bikeid=?";
+    $updatestat=$conn->prepare($sql);
     $updatestat->bind_param("s", $bikeid);
     $updatestat->execute();
 
@@ -104,7 +106,7 @@ function delete_id(bikeid)
             while ($row = $result->fetch_assoc()) {
                 echo "<tr>";
                 echo "<td>" . $row["bikeid"] . "</td>";
-                echo "<td>" . $row["studino]"] . "</td>";
+                echo "<td>" . $row["studidno"] . "</td>";
                 echo "<td>" . $row["brokenparts"] . "</td>";
                 echo "<td>" . $row["dateadded"] . "</td>";
                 echo "<td>";

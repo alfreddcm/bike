@@ -23,13 +23,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $query1->store_result();
     
         if($query1->num_rows > 0){
-            echo "<script>alert('Redirecting to dashboard!.'); window.location.href='dashboard.php';</script>";
+            echo "<script>alert('Logged in.'); window.location.href='dashboard.php?idno=" . $idno . "';</script>";
         }else{
-            echo "<script>alert('Incorrect Password!.'); window.location.href='login.php';</script>";
+            echo "<script>alert('Inputs Password!.'); window.location.href='login.php';</script>";
         }
 
     } else {
-        echo "<script>alert('Id no not found!.'); window.location.href='login.php';</script>";
+        echo "<script>alert('User not found. Please log in'); window.location.href='login.php';</script>";
     }
 
 };
@@ -66,19 +66,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </style>
 <script>
      function validateForm() {
-        const idno = document.getElementById("idno").value;
+        return confirm("Are you sure you want to submit the form?");
+
+        const idno  = document.getElementById("idno").value;
         const fname = document.getElementById("pass").value;
-        
-        if (isNaN(idno))  {
-    alert("INputed ID no is not a number!");
-    return false;
-         }
 
         if (idno === ""  || pass === "") {
             alert("Please fill in all required fields.");
             return false;
         }
         return true;
+}
+function show() {
+  var x = document.getElementById("pass");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
 }
 </script>
 
@@ -98,8 +103,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </head>
 <body>
     <div class="container">
-        
-    
     <h2>Login</h2>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" onsubmit="return validateForm()";>
             <table>
@@ -109,15 +112,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <tr><td><label for="pass">Password: </label></td>
                 <td><input type="password" name="pass" id="pass" required></td>
             </tr>
+            <tr><td><input type="checkbox" onclick="show()">Show Password</td></tr>
             </table>
-        <input type="submit" value="Login">
+            <center><input type="submit" value="Login"></center>
     </form>
-    <button onclick="gosignup()">Create new account</button>
-    <button onclick="gohome()">Return home</button>
+    <center><button onclick="gosignup()">Create new account</button>
+    <button onclick="gohome()">Return home</button></center>
+    
     </div>
 </body>
 </html>
 <script>
+    
     
     function gohome(){
         window.location.href="index.php";

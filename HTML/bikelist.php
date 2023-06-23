@@ -40,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Deleting
 if(isset($_GET['delete_id']))
 {
-
         $bikeid = $_GET['delete_id'];
         $stmt = $conn->prepare("DELETE FROM bikeinfo WHERE bikeid = ?");
         $stmt->bind_param("s", $bikeid);
@@ -93,10 +92,9 @@ if(isset($_GET['delete_id']))
         border: none;
         background: none;
         text-decoration: none;
-
     }
 
-    .remove-icon, .repair-icon {
+    .icon{
         width: 20px;
         height: 20px;
         margin-right: 5px;
@@ -142,6 +140,22 @@ function delete_id(bikeid)
   window.location.href='bikelist.php?delete_id='+bikeid;
  }
 }
+function upstat(bikeid)
+{
+ if(confirm('Select ok to continue'))
+ {
+  window.location.href='changestat.php?upstat='+bikeid;
+ }
+}
+
+function confirmSubmit1() {
+        return confirm("Are you sure you want to submit the form?");
+    }
+    function confirmSubmit2() {
+        return confirm("Are you sure you want to submit the form?");
+    }
+
+
 
 
 </script>
@@ -172,15 +186,14 @@ function delete_id(bikeid)
             echo "<tr><td>Status:</td><td>" . $row["stat"] . "</td></tr>";
             echo "</table>";
             ?>
-            <a href="javascript:delete_id(<?php echo $row["bikeid"]; ?>)"><img src="delete.png" alt="Delete" class='remove-icon' />
+            <a href="javascript:delete_id(<?php echo $row["bikeid"]; ?>)"><img src="delete.png" alt="Delete" class='icon' />
             <span class='remove-text'>Remove</span>
-        
+        </a>
+        <a href="javascript:upstat(<?php echo $row["bikeid"]; ?>)"><img src="up.png" alt="up" class='icon' />
+            <span class='remove-text'>Update status</span>
         </a>
             <?php
-            //echo "<a href='?rn={$row['bikeid']}' class='remove-button' onclick='return confirm('Are You Sure ?')'>";
-            //echo "<img src='delete.png' alt='Delete' class='remove-icon'>";
-            //echo "";
-            //echo "</a>";
+
             echo "</div>";
         } 
     } else {
@@ -196,7 +209,7 @@ function delete_id(bikeid)
 
             <div id="add">
                 <h1>Adding bike</h1>
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" onsubmit="return confirmSubmit1();">
                     <label for="bikeid">Bike ID:</label>
                     <input type="number" id="bikeid" name="bikeid" required>
                     <label for="biketype">Bike Type:</label>
@@ -212,7 +225,7 @@ function delete_id(bikeid)
 
             <div id="update">
                 <h1>Edit Bike Information</h1>
-                <form action="updatebike.php" method="POST">
+                <form action="updatebike.php" method="POST" onsubmit="return confirmSubmit2();">
                     <label for="bikeid2">Bike ID:</label>
                     <input type="number" id="bikeid2" name="bikeid2" required>
                     <br>    
