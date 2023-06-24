@@ -39,8 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $query1->execute();
                 $query1->store_result();
 
-                echo "<script>alert('Account added!');</script>";
-                echo "<script>alert('Redirecting to dashboard'); window.location.href='dashboard.php';</script>";
+                echo "<script>alert('Account added! You can now log in.');  window.location.href='login.php';</script>";
             }
         }
     }

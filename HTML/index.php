@@ -94,6 +94,12 @@ input[type="number"]{
     text-align:center;
     width: 90%;
 }
+.postt{
+    margin-top:10px;
+    padding:10px;
+    border:1px solid black;
+    width: 600px;
+}
 
 </style>
 
@@ -104,12 +110,17 @@ input[type="number"]{
         <div class="p">
             <?php echo "Today is " . date("l"); ?>
         </div>
+        <div class="postt">
+<p>
+    fix:: nakakaahiram parin kahit di nagbalik
+</p>
+        </div>
 
     </div>
 
     <div class="column2">
         <div class="side">
-            <button href="">Help and Support</button>
+            <button onclick="gohome()">Help and Support</button>
             <button onclick="gologin()">Login as administrator</button>
         </div>
         <div class="con"> 
@@ -188,9 +199,6 @@ document.getElementById("datetimer").value = formattedDatetime.replace("T", " ")
             return false;
         }
         return true;
-
-
-
     }
     function validateForm2() {
 
@@ -232,6 +240,9 @@ document.getElementById("datetimer").value = formattedDatetime.replace("T", " ")
             returnDiv.style.display = 'block';
         }
     });
+    function gohome(){
+        window.location.href="help.php";
+    }
 </script>
 
 </html>

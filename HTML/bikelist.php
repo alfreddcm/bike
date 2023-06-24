@@ -183,15 +183,16 @@ function confirmSubmit1() {
             echo "<tr><td>Type:</td><td>" . $row["biketype"] . "</td></tr>";
             echo "<tr><td>Color:</td><td>" . $row["bikecolor"] . "</td></tr>";
             echo "<tr><td>Department:</td><td>" . $row["bikedep"] . "</td></tr>";
-            echo "<tr><td>Status:</td><td>" . $row["stat"] . "</td></tr>";
+            echo "<tr><td>Status:</td><td>" . $row["stat"] . " </td></tr>";
             echo "</table>";
             ?>
+
             <a href="javascript:delete_id(<?php echo $row["bikeid"]; ?>)"><img src="delete.png" alt="Delete" class='icon' />
             <span class='remove-text'>Remove</span>
-        </a>
+        </a><br>
         <a href="javascript:upstat(<?php echo $row["bikeid"]; ?>)"><img src="up.png" alt="up" class='icon' />
-            <span class='remove-text'>Update status</span>
-        </a>
+        <span class='remove-text'>Change status</span>
+    </a>
             <?php
 
             echo "</div>";

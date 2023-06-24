@@ -20,7 +20,7 @@ if (isset($_GET['delete_id'])) {
     $updatestat->execute();
 
     if ($deleteStmt->execute() && $deleteStmt->affected_rows > 0) {
-        echo "<script>alert('Bike removed from history!'); window.location.href='historylist.php';</script>";
+        echo "<script>alert('Bike removed from history!'); window.location.href='repairlist.php';</script>";
     } else {
         echo "<script>alert('Error removing bike from history!');</script>";
     }
@@ -93,6 +93,7 @@ function delete_id(bikeid)
 
 <body>
     <h1>Repair List</h1>
+    <button onclick="dash()">Dashboard</button>
     <table>
         <tr>
             <th>Bikeid</th>
@@ -111,7 +112,7 @@ function delete_id(bikeid)
                 echo "<td>" . $row["dateadded"] . "</td>";
                 echo "<td>";
                 ?>
-                <a href="javascript:delete_id(<?php echo $row["bikeid"]; ?>)"><img src="delete.png" alt="Delete" class='remove-icon' />
+                <a href="javascript:delete_id(<?php echo $row["bikeid"]; ?>)"><img src="delete.png" alt="Delete" class='remove-icon' width='20px' height='15px' />
                 <span class='remove-text'>Remove</span></a>
                 <?php
             }
@@ -119,8 +120,9 @@ function delete_id(bikeid)
             echo "<tr><td colspan='5' >No records found.</td></tr>";
         }
         ?>
-        <button onclick="dash()">Dashboard</button>
+        
     </table>
+    
 </body>
 
 </html>
