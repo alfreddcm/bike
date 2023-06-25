@@ -4,32 +4,30 @@ ini_set('display_errors', 1);
 require('connection.php');
 ?>
 
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" class="rel">
+    <style>
+        .container {
+            display:flex;
+            width: 50rem;
+            box-shadow: 12px 12px 12px;
+                }
+
     .con {
         margin: auto;
     }
-</style>
+    </style> 
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Bike Assembly Checklist</title>
-    <style>
-        .container {
-            display:;
-            width: 50rem;
-            box-shadow: 12px 12px 12px;
-        }
-
-        .s {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
+<title>Bike Assembly Checklist</title>
 </head>
 <body>
 <div>
-    <h1>Add Bike to Repair List</h1>
+   <center><h1>Add Bike to Repair List</h1></center> 
     <label for="bikeid">Bike id: <?php 
     if (isset($_GET['rn']) && isset($_GET['studidno'])) {
       $bikeid = $_GET['rn'];
@@ -53,7 +51,8 @@ require('connection.php');
 <form action="inschecklist.php?bikeid=<?php echo $bikeid; ?>&studidno=<?php echo $studidno; }?>" method="POST" onsubmit="return confirmSubmit();">
         <div class="column">
         <fieldset>
-        <h2>FRAMESET</h2>
+            <center><h2>FRAMESET</h2></center>
+        
         <input type="checkbox" id="frame" name="checklist[]" value="Frame">
         <label for="frame">Frame</label><br>
         <input type="checkbox" id="forks" name="checklist[]" value="Forks">
@@ -70,9 +69,11 @@ require('connection.php');
         <label for="seatPost">Seat post</label><br>
       </fieldset>
         </div>
+
         <div class="column">
         <fieldset>
-        <h2>GROUPSET</h2>
+            <center><h2>GROUPSET</h2></center>
+        
         <input type="checkbox" id="frontMech" name="checklist[]" value="Front Derailleurs">
         <label for="frontMech">Front Derailleurs</label><br>
         <input type="checkbox" id="rearMech" name="checklist[]" value="Rear Derailleurs">
@@ -97,12 +98,12 @@ require('connection.php');
         <label for="pedals">Pedals</label><br>
         <input type="checkbox" id="bottleCages" name="checklist[]" value="Bottle Cages">
         <label for="bottleCages">Bottle Cages</label><br>
-
       </fieldset>
         </div>
+
         <div class="column">
         <fieldset>
-        <h2>WHEEL SET</h2>
+        <center><h2>WHEEL SET</h2></center>
         <input type="checkbox" id="wheels" name="checklist[]" value="Rims">
         <label for="wheels">Rims</label><br>
         <input type="checkbox" id="spokes" name="checklist[]" value="Spokes and Nipples">
@@ -117,10 +118,10 @@ require('connection.php');
         </div>
         <div class="s">
             <input type="submit" value="Submit">
-            <button onclick="cancel()">Cancel</button>
         </div>
     </form>
 </div>
+<button onclick="cancel()">Cancel</button>
 
 <script>
     function confirmSubmit() {

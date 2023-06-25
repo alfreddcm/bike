@@ -29,54 +29,6 @@ if (isset($_GET['delete_id'])) {
 }
 
 ?>
-
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>History List</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        .remove-button, .repair-button {
-            display: inline-block;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .remove-button {
-            background-color: #f44336;
-            color: #fff;
-        }
-
-        .remove-button:hover {
-            background-color: #d32f2f;
-        }
-
-        .repair-button {
-            background-color: #2196f3;
-            color: #fff;
-        }
-
-        .repair-button:hover {
-            background-color: #1976d2;
-        }
-    </style>
     <script>
         function dash(){
     window.location.href="dashboard.php";
@@ -89,11 +41,27 @@ function delete_id(bikeid)
  }
 }
     </script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repair</title>
+    <link rel="stylesheet" href="style.css" class="rel">
 </head>
-
 <body>
-    <h1>Repair List</h1>
-    <button onclick="dash()">Dashboard</button>
+<div class="navbar">
+  <a href="dashboard.php">Dashboard</a>
+  <a href="bikelist.php">Bike List</a>
+  <a href="historylist.php">Transaction</a>
+  <a class="active" href="repairlist.php">Repair List</a>
+  <a href="login.php">Log out</a>
+</div>
+
+
+    <center><h1>Repair List</h1></center>
+    <div class="box">
     <table>
         <tr>
             <th>Bikeid</th>
@@ -117,12 +85,10 @@ function delete_id(bikeid)
                 <?php
             }
         } else {
-            echo "<tr><td colspan='5' >No records found.</td></tr>";
+            echo "<tr><td colspan='5' ><center>No records found.</center></td></tr>";
         }
-        ?>
-        
+        ?> 
     </table>
-    
+</div>
 </body>
-
 </html>

@@ -34,29 +34,27 @@ $_SESSION['depname'] = $depname;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css" class="rel">
 </head>
       <style>
-          body {
-            height: 100%;
-    font-family: Poppins-Regular, sans-serif;
-    background-color: #E7E9EB;
-    background-image: url("bg.png");
-    background-repeat: repeat-y;
-          }
           .con{
-            width: 80%;
-            background-color: #f8f9fc;
+            margin-top: 140px;
+            border-radius:8px;
+            width: 1000px;
+            background-color: rgba(255,255,255, 0.6);
             margin-left: auto;
             margin-right: auto;
+            box-shadow:8px 6px 6px;
           }
           .user{
-            margin-top: 100px;
+            font-size:23px;
+            font-weight: bold;
+           padding: 10px;
             margin-bottom: 0.5rem;
-             line-height: 1.2;
              display: flex;
              flex-direction: column;
             width: 75%;
-            margin-left: auto;
+            margin-left: 100px;
             margin-right: auto;
           }
   
@@ -64,13 +62,16 @@ $_SESSION['depname'] = $depname;
             width: 80%;
               display: flex;
               flex-direction: row;
-              justify-content: space-evenly;
+              justify-content: space-between;
               align-items: center;
               margin-left: auto;
               margin-right: auto;
-          }
+              padding:4px;
+         }
   
           fieldset {
+            transform:scale(1.1);
+            color:white;
               border-radius: 10px;
               border: 3px solid white;
               width: 2in;
@@ -79,41 +80,72 @@ $_SESSION['depname'] = $depname;
               box-shadow: 10px 10px 10px;
           }
           fieldset legend{
-            background-color: white;
-              border-radius: 3px;
-              border: 1px solid white;
-              font-size: large;
+            width:10rem;
+            height: 1.6rem;
+            background: black;
+            border-radius: 3px;
+            font-size: large;
+            margin-left:-30px;
           }
-          .fieldset1{
-            background-color: orange;
+          .fieldset1, .fieldset2, .fieldset3{
+            background: darkgreen;
           }
-          .fieldset1:hover{
-            background-color: pink;
+          .fieldset1:hover, .fieldset2:hover, .fieldset3:hover{
+            transform:scale(1.2);
           }
-          .fieldset2{
-            background-color: orange;
+    .href a{
+      text-decoration:none;
+      color:white;
+      width: 100%;
+      text-align: center;
           }
-          .fieldset3{
-            background-color: orange; 
+          .href a{
+      text-decoration:none;
+      color:white;
+      width: 100%;
+      text-align: center;
           }
-          .logout{
-            display: flex;
-            flex-direction: row-reverse;
-            margin-right:20px;
-            
-          }
+          /*nav*/
+  .navbar {
+    background-color: #333;
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .navbar a {
+    color: #fff;
+      text-decoration: none;
+      padding: 8px 16px;
+      margin: 0 8px;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+  }
+
+  .active {
+    background-color: gray;
+  }
 
       </style>
 </head>
 <body>
-  <div class="con">
-  <div class="user">
-  <h1>Hello <?php echo $_SESSION['fname'] . " " . $_SESSION['lname']; ?></h1>
-<h3><?php echo $_SESSION['depname']; ?> Department</h3>
+<div class="navbar">
+  <a class="active" href="dashboard.php">Dashboard</a>
+  <a href="bikelist.php">Bike List</a>
+  <a href="historylist.php">Transaction</a>
+  <a href="repairlist.php">Repair List</a>
+  <a href="login.php">Log out</a>
+</div>
 
-  </div>
-    <div class="dashboard">
-        <fieldset class="fieldset1">
+  <div class="con">
+              <div class="user">
+                    <?php echo "Hello ".$_SESSION['fname'] . " " . $_SESSION['lname']."<br>";
+                    echo $_SESSION['depname']. " Department"; ?> 
+              </div>
+
+       <div class="dashboard">
+          <fieldset class="fieldset1">
             <legend>BIKE LIST</legend>
             <?php
                 $sql = "SELECT * FROM bikeinfo";
@@ -121,7 +153,8 @@ $_SESSION['depname'] = $depname;
                 $result = $query->fetch_all(MYSQLI_ASSOC);
                 $rowCount = count($result);
                 echo $rowCount . " registered Bike";
-            ?><br><a href="bikelist.php">See list</a>
+            ?><br>
+                   <div class="href"><a href="bikelist.php">See list</a></div>
         </fieldset>
 
         <fieldset class="fieldset2">
@@ -140,12 +173,7 @@ $_SESSION['depname'] = $depname;
                 $rowCount = count($result);
                 echo $rowCount . " available bike";
             ?>
-            
-            
-            
-            <br>
-            <br><a href="historylist.php">See list</a>
-
+            <div class="href"><a href="historylist.php">See list</a></div>
         </fieldset>
 
         <fieldset class="fieldset3">
@@ -156,16 +184,10 @@ $_SESSION['depname'] = $depname;
                 $result = $query->fetch_all(MYSQLI_ASSOC);
                 $rowCount = count($result);
                 echo $rowCount . " listed bike ";
-            ?><br><a href="repairlist.php">See list</a>
-
+            ?><br>
+                      <div class="href"> <a href="repairlist.php">See list</a> </div>
         </fieldset>
-    </div>
-    <div class="logout"><button onclick="logout()">LOG OUT</button></div>
+      </div>
 </div>
   </body>
-  <script>
-    function logout(){
-      window.location.href="login.php"
-    }
-  </script>
 </html>

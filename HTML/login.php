@@ -23,7 +23,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $query1->store_result();
     
         if($query1->num_rows > 0){
-            echo "<script>alert('Logged in.'); window.location.href='dashboard.php?idno=" . $idno . "';</script>";
+            echo "<script>alert('Logged in, redirecting to dashboard'); window.location.href='dashboard.php?idno=" . $idno . "';</script>";
         }else{
             echo "<script>alert('Inputs Password!.'); window.location.href='login.php';</script>";
         }
@@ -35,25 +35,33 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 };
 ?>
 <style>
-    body{
-        height: 100%;
+       body{
+    display:flex;       
+	height: 100%;
     font-family: Poppins-Regular, sans-serif;
-    background-color: #E7E9EB;
-    background-image: url("bg.png");
-    background-repeat: repeat-y;
-        }
+    background-image: url("bgimage.png");
+    background-repeat: no-repeat;
+ background-attachment: fixed;
+  background-position: center;
+  background-size: 100%;
+}
         .container {
+            color:white;
+            background: linear-gradient(to top, rgba(0,0,0,0.8)50%,rgba(0,0,0,0.8)50%);
             margin-top:1.5in;
             margin-left:auto;
             margin-right:auto;
             display:block;
             background-color: white;
             border-radius:3px;
-            box-shadow: 10px 10px 10px;
+            box-shadow: 1px 1px 1px 1px;
             padding: 20px;
             width:400px;
+            height: 263px;
         }
-
+label, p{
+    color:white;
+}
         .container input[type="text"],
         .container input[type="number"],
         .container input[type="password"] {
@@ -63,6 +71,34 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             padding: 5px;
             margin-bottom: 10px;
         }
+    .btnn{
+    transform: scale(1.4);
+    width: 100px;
+    height: 20px;
+    background: green;
+    border: none;
+    margin-top: 10px;
+    font-size: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    transition: 0.4s ease;
+   padding: 1px;
+    text-decoration: none;
+    color: #000;
+    text-transform: uppercase;
+}
+.btnn:hover{
+    background: #fff;
+    color: green;
+}
+.cre{
+    color:white;
+cursor: pointer;
+    text-decoration:none;
+    background:transparent;
+    border:none;
+}
 </style>
 <script>
      function validateForm() {
@@ -112,12 +148,12 @@ function show() {
             <tr><td><label for="pass">Password: </label></td>
                 <td><input type="password" name="pass" id="pass" required></td>
             </tr>
-            <tr><td><input type="checkbox" onclick="show()">Show Password</td></tr>
+            <tr><td style="color:white; "><input type="checkbox" onclick="show()">Show Password</td></tr>
             </table>
-            <center><input type="submit" value="Login"></center>
+            <center><input type="submit" value="Login" class="btnn" ></center>
     </form>
-    <center><button onclick="gosignup()">Create new account</button>
-    <button onclick="gohome()">Return home</button></center>
+    <center><button class="cre"onclick="gosignup()">Create new account</button> <br>
+    <button class="cre" onclick="gohome()">Return home</button></center>
     
     </div>
 </body>

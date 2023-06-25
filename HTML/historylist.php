@@ -48,58 +48,21 @@ if (isset($_GET['delete_id'])) {
 }
 
 ?>
-
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History List</title>
+    <link rel="stylesheet" href="style.css" class="rel">
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        .remove-button, .repair-button {
-            display: inline-block;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .remove-button {
-            background-color: #f44336;
-            color: #fff;
-        }
-
-        .remove-button:hover {
-            background-color: #d32f2f;
-        }
-
-        .repair-button {
-            background-color: #2196f3;
-            color: #fff;
-        }
-
-        .repair-button:hover {
-            background-color: #1976d2;
-        }
         .icon{
         width: 18px;
         height: 20px;
         margin-right: 5px;
     }
+    
     </style>
     <script>
         function dash(){
@@ -116,7 +79,16 @@ function delete_id(bikeid)
 </head>
 
 <body>
-    <h1>History List</h1>
+<div class="navbar">
+  <a href="dashboard.php">Dashboard</a>
+  <a href="bikelist.php">Bike List</a>
+  <a class="active" href="historylist.php">Transaction</a>
+  <a href="repairlist.php">Repair List</a>
+  <a href="login.php">Log out</a>
+</div>
+
+   <center><h1>History List</h1></center>
+   <div class="box"> 
     <?php
     echo "Number on the list : " . $result->num_rows;
     ?>
@@ -175,7 +147,7 @@ function delete_id(bikeid)
             echo "<tr><td colspan='9'><center>No records found.</center></td></tr>";
         }
         ?>
-        <button onclick="dash()">Dashboard</button>
+        </div>
     </table>
 </body>
 

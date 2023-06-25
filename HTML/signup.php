@@ -55,12 +55,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Sign up</title>
 
     <style>
-        body{
-            font-family: Poppins-Regular, sans-serif;
-            background-color: #f9df30;
-        }
+    body{
+
+        display:flex;       
+        height: 100%;
+         font-family: Poppins-Regular, sans-serif;
+    background-image: url("bgimage.png");
+    background-repeat: no-repeat;
+ background-attachment: fixed;
+  background-position: center;
+  background-size: 100%;
+}
         .container {
-            margin-top: 1.5in;
+            color:white;
+            background: linear-gradient(to top, rgba(0,0,0,0.8)50%,rgba(0,0,0,0.8)50%);
+            margin-top: 1.3in;
             margin-left: auto;
             margin-right: auto;
             display: block;
@@ -80,6 +89,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 5px;
             margin-bottom: 10px;
         }
+        .cre{
+            margin-top:4px;
+    color:white;
+cursor: pointer;
+    text-decoration:none;
+    background:transparent;
+    border:none;
+}
+.btnn{
+    transform: scale(1.4);
+    width: 100px;
+    height: 20px;
+    background: green;
+    border: none;
+    margin-top: 10px;
+    font-size: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    transition: 0.4s ease;
+   padding: 1px;
+    text-decoration: none;
+    color: #000;
+    text-transform: uppercase;
+}
+.btnn:hover{
+    background: #fff;
+    color: green;
+}
     </style>
 </head>
 <body>
@@ -116,9 +154,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </td></tr>
 
             </table>
-            <center><input type="submit" value="Signup" id="submit"></center>
+            <center><input type="submit" value="Signup" id="submit" class="btnn"></center>
         </form>
-        <center><a href="login.php">Already have an account?</a>
+        <center><button class="cre" onclick="glogin()">Already have an account?</button> <br>
+        <button class="cre" onclick="gohome()">Return home</button></center>
+
     </div></center>
 </body>
 </html>
@@ -140,4 +180,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   }
 }
+function gohome(){
+        window.location.href="index.php";
+    }
+    function glogin(){
+        window.location.href="login.php";
+    }
+
 </script>

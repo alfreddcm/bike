@@ -18,16 +18,18 @@ $result = mysqli_query($conn, $sql);
 </head>
 <style>
     body{
-        
     display:flex;       
 	height: 100%;
     font-family: Poppins-Regular, sans-serif;
-    background-color: #E7E9EB;
-    background-image: url("bg.png");
-    background-repeat: repeat-y;
+    background-image: url("bgimage.png");
+    background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: 100%;
 }
         
 .column1 {
+    color:white;
   float: left;
   width: 60%;
   padding: 10px;
@@ -39,32 +41,38 @@ $result = mysqli_query($conn, $sql);
   height: 300px;
 }
 #idno{
-    margin-top:5px;
-    width:50px;
+    margin-top:px;
+    width:68px;
 }
 #fname,#lname{
     width: 150px;
 }
+#course,#dep{
+    width: 190px;
+    margin-bottom:3px;
+}
+#datetime,#datetimer{
+  margin-top:5px;
+  width: 100%;
+  text-align: center;
+  outline: none;
+}
 
 .con{
-    transform: scale(1.20);
+    color: white;
+    background: linear-gradient(to top, rgba(0,0,0,0.8)50%,rgba(0,0,0,0.8)50%);
+    transform: scale(1.10);
     background-color:white;
     border-radius:3px;
     margin-top:6rem;
     width:400px;
-    box-shadow:10px 10px 10px;
+    box-shadow:1px 3px 3px 3px black;
     padding:20px;
 }
-.con input[type="text"],
-input[type="number"]{
-    margin-top:2px;
-    margin-bottom:3px;
-    padding:5px;
-    
-    border: none;
-    border-bottom: 1px solid black;
-}
 #status, #bikeid{
+    border: 1px solid white;
+    color:white;
+        background-color: transparent;
     border-radius:3px;
     background-color:gren;
     font-size:15px;
@@ -75,32 +83,94 @@ input[type="number"]{
     width:100%;
 }
 .side{
-
   display: flex;
   flex-direction: row-reverse;
   align-content:center;
   padding:20px;
 }
 .side button{
+    color:white;
     font-size:18px;
     cursor: pointer;
     background-color: transparent;
   text-decoration:none;
   margin: 10px;
   border:none;
+  transition: 0.4s ease-in-out;
+}
+.side button:hover{
+    color:red;
+
 }
 #return input[type="text"],
 input[type="number"]{
+    outline: none;
     text-align:center;
     width: 90%;
+    height: 25px;
+    background: transparent;
+    border-bottom: 1px solid green;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    color: black;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-top: 3px;
+    font-family: sans-serif;
 }
-.postt{
-    margin-top:10px;
-    padding:10px;
-    border:1px solid black;
-    width: 600px;
+#borrow input[type="text"],
+input[type="number"]{
+    outline: none;
+    text-align:center;
+    height: 25px;
+    background: transparent;
+    border-bottom: 1px solid green;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    color: black;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-top: 3px;
+    font-family: sans-serif;
 }
 
+::placeholder{
+    color: white;
+    font-family: Arial;
+}
+.postt{
+    background-color:rgba(0, 3px, 5px, 0.2);
+    letter-spacing: .5px;
+    font-size:20px;
+    margin-top:130px;
+    padding:10px;
+    width: 600px;
+    border-radius:4px;
+    box-shadow:1px 3px 3px 3px black;
+}
+
+.btnn{
+    width: 100px;
+    height: 20px;
+    background: green;
+    border: none;
+    margin-top: 9px;
+    font-size: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #fff;
+    transition: 0.4s ease;
+   padding: 1px;
+    text-decoration: none;
+    color: #000;
+    text-transform: uppercase;
+}
+.btnn:hover{
+    background: #fff;
+    color: green;
+}
 </style>
 
 <body>
@@ -111,9 +181,9 @@ input[type="number"]{
             <?php echo "Today is " . date("l"); ?>
         </div>
         <div class="postt">
-<p>
-    fix:: nakakaahiram parin kahit di nagbalik
-</p>
+<center><p>
+If your bike's out of commission, but you still need to get around, you might need to resort to borrowing a buddy's. But don't take that kindness for granted, borrowing a bike is a lot like babysitting - it's pretty easy, but if you mess up you're going to have some very angry parents on your hands. In today's post, let's look at the rules for successfully bumming a ride and keeping your friendships.
+</p></center>
         </div>
 
     </div>
@@ -148,7 +218,7 @@ input[type="number"]{
                     <input type="text" name="dep" id="dep" placeholder="Department" require><br>
                     <input type="datetime-local" name="datetime" id="datetime" require> 
                     <br>
-                    <input type="submit" name="submit">
+                    <center><input type="submit" class="btnn" name="submit"></center>
                 </form>
                 </div>
         
@@ -156,11 +226,11 @@ input[type="number"]{
                     <div id="return">
                         <form action="return.php" method="POST" id="returnform" onsubmit="return validateForm2();">
                         <label for="">Enter bike id:</label><br>
-                            <input type="number" name="bikeidr" id="bikeidr" placeholder="Bike ID">
+                            <center><input type="number" name="bikeidr" id="bikeidr" placeholder="Bike ID">
                             <input type="text" name="idnor" id="idnor" placeholder="ID No"><br>
                             <input type="datetime-local" name="datetimer" id="datetimer" require> 
                             <br>
-                            <input type="submit" name="submit">
+                            <input type="submit" name="submit" class="btnn"></center>
                         </form>
                         </div>
     </div>

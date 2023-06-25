@@ -38,8 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Deleting
-if(isset($_GET['delete_id']))
-{
+if(isset($_GET['delete_id'])){
         $bikeid = $_GET['delete_id'];
         $stmt = $conn->prepare("DELETE FROM bikeinfo WHERE bikeid = ?");
         $stmt->bind_param("s", $bikeid);
@@ -55,23 +54,24 @@ if(isset($_GET['delete_id']))
         }
         
         $stmt->close();
-
 }
 
 ?>
 
 <style>
+
 #add, #update {
     display: none;
 }
+#add,#update ::after{}
 .grid-container {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
         grid-gap: 20px;
         border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        padding: 20px;
-        background-color: #f0f0f0;
+        box-shadow: 0 2px 4px rgba(0, 3px, 5px, 0.2);
+        padding: 30px;
+        background-color: RGB (240, 240, 240);
     }
 
     .grid-item {
@@ -103,8 +103,23 @@ if(isset($_GET['delete_id']))
     .remove-text, .repair-text{
         display: inline;
     }
+              /*nav*/
+
+  .box{
+    color:white;
+    padding:20px;
+    border-radius:7px;
+    width:94%;
+    background-color:gray;
+    margin:auto;
+  }
+  .flex{ 
+    display:flex;
+  }
+
     
 </style>
+
 
 <script>
     
@@ -154,24 +169,68 @@ function confirmSubmit1() {
     function confirmSubmit2() {
         return confirm("Are you sure you want to submit the form?");
     }
-
-
-
-
 </script>
-
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Display Data</title>
+    <link rel="stylesheet" href="style.css" class="rel">
 </head>
 
 <body>
-    <h1>Bike List</h1>
-    <?php
-    echo "Number of rows: " . $result->num_rows;
-    ?>
+<div class="navbar">
+  <a href="dashboard.php">Dashboard</a>
+  <a class="active" href="bikelist.php">Bike List</a>
+  <a href="historylist.php">Transaction</a>
+  <a href="repairlist.php">Repair List</a>
+  <a href="login.php">Log out</a>
+</div>
+    <center><h1> Bike List</h1></center>
+    <div class="box">
+        <div class="flex">
+             <?php echo "Number of bikes : " . $result->num_rows . "   " ?>
+    <div class="show">
+    <button onclick="showadd()">Add Bike</button>
+    <button onclick="updatebike()">Edit Bike Information</button>
+
+        </div>
+   </div>   
+    <center><div id="add">
+                <h1>Adding bike</h1>
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" onsubmit="return confirmSubmit1();">
+                    <input type="number" id="bikeid" name="bikeid" placeholder="Bike ID " required>
+                    <input type="text" id="biketype" name="biketype" placeholder="Bike Type " required>
+                    <input type="text" id="bikecolor" name="bikecolor" placeholder="Bike Color " required>
+                    <input type="text" id="bikedep" name="bikedep" placeholder="Bike Deperment " required>
+                    <input type="hidden" name="stat" value="available">
+                    <input type="submit" value="Submit">
+                </form>
+                
+            </div>
+            <div id="update">
+                <h1>Edit Bike Information</h1>
+                <form action="updatebike.php" method="POST" onsubmit="return confirmSubmit2();">
+                    <input type="number" id="bikeid2" name="bikeid2" placeholder="Bike ID "required>  
+                    <input type="number" id="newbikeid" name="newbikeid"placeholder="New Bike ID " required>
+                    <input type="text" id="biketype" name="biketype" placeholder="New Bike Type"qrequired>
+                    <input type="text" id="bikecolor" name="bikecolor" placeholder="New Bike Color " required>
+                    <input type="text" id="bikedep" name="bikedep" placeholder="New Department Name" required>
+                    <button type="submit">Update Bike</button>
+                </form>
+            </div></center>
+
+
+
+
+
+
+
+
+
+
 
 <div class="grid-container">
     <?php
@@ -193,58 +252,20 @@ function confirmSubmit1() {
         <a href="javascript:upstat(<?php echo $row["bikeid"]; ?>)" style='text-decoration:none'><img src="up.png" alt="up" class='icon' />
         <span class='remove-text' >Change status</span>
     </a></center>
-            <?php
 
+            <?php
             echo "</div>";
         } 
     } else {
-        echo "<p>No results found.</p>";
+        echo "<p> No results found. </p>";
     }
     $result->close();
     ?>
 </div>
     <div>
-    <button onclick="dash()">Dashboard</button>
-        <button onclick="showadd()">Add Bike</button>
-        <button onclick="updatebike()">Edit Bike Information</button>
+            
 
-            <div id="add">
-                <h1>Adding bike</h1>
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" onsubmit="return confirmSubmit1();">
-                    <label for="bikeid">Bike ID:</label>
-                    <input type="number" id="bikeid" name="bikeid" required>
-                    <label for="biketype">Bike Type:</label>
-                    <input type="text" id="biketype" name="biketype" required>
-                    <label for="bikecolor">Color:</label>
-                    <input type="text" id="bikecolor" name="bikecolor" required>
-                    <label for="bikedep">Department:</label>
-                    <input type="text" id="bikedep" name="bikedep" required>
-                    <input type="hidden" name="stat" value="available"><br>
-                    <input type="submit" value="Submit">
-                </form>
-            </div>
-
-            <div id="update">
-                <h1>Edit Bike Information</h1>
-                <form action="updatebike.php" method="POST" onsubmit="return confirmSubmit2();">
-                    <label for="bikeid2">Bike ID:</label>
-                    <input type="number" id="bikeid2" name="bikeid2" required>
-                    <br>    
-                    <label for="newbikeid">New Bike ID:</label>
-                    <input type="number" id="newbikeid" name="newbikeid" required>
-                    <br>
-                    <label for="biketype">New Bike Type:</label>
-                    <input type="text" id="biketype" name="biketype" required>
-                    <br>
-                    <label for="bikecolor">New Bike Color:</label>
-                    <input type="text" id="bikecolor" name="bikecolor" required>
-                    <br>
-                    <label for="bikedep">New Bike Department:</label>
-                    <input type="text" id="bikedep" name="bikedep" required>
-                    <br>
-                    <button type="submit">Update Bike</button>
-                </form>
-            </div>
+            
         </div>
     </body>
 </html>
