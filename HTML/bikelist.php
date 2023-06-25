@@ -95,7 +95,7 @@ if(isset($_GET['delete_id']))
     }
 
     .icon{
-        width: 20px;
+        width: 18px;
         height: 20px;
         margin-right: 5px;
     }
@@ -186,13 +186,13 @@ function confirmSubmit1() {
             echo "<tr><td>Status:</td><td>" . $row["stat"] . " </td></tr>";
             echo "</table>";
             ?>
-
-            <a href="javascript:delete_id(<?php echo $row["bikeid"]; ?>)"><img src="delete.png" alt="Delete" class='icon' />
-            <span class='remove-text'>Remove</span>
+            <center>
+            <a href="javascript:delete_id(<?php echo $row["bikeid"]; ?>)" style='text-decoration:none'><img src="delete.png" alt="Delete" class='icon' />
+            <span class='remove-text' >Remove</span>
         </a><br>
-        <a href="javascript:upstat(<?php echo $row["bikeid"]; ?>)"><img src="up.png" alt="up" class='icon' />
-        <span class='remove-text'>Change status</span>
-    </a>
+        <a href="javascript:upstat(<?php echo $row["bikeid"]; ?>)" style='text-decoration:none'><img src="up.png" alt="up" class='icon' />
+        <span class='remove-text' >Change status</span>
+    </a></center>
             <?php
 
             echo "</div>";

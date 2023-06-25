@@ -39,9 +39,10 @@ require('connection.php');
       $query=$conn->prepare($sql);
       $query->bind_param("s",$bikeid);
       $query->execute();
+      $query->store_result();
 
-      if($query->affected_rows>0){
-        echo "<script>alert('Bike is already on the list!'); window.location.href='history.php';</script>";
+      if($query->num_rows>0){
+        echo "<script>alert('Bike is already on the list!'); window.location.href='bikelist.php';</script>";
       }
 
 

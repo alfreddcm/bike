@@ -141,7 +141,6 @@ input[type="number"]{
                         </option>
                     <?php endwhile; ?>
                     </select>
-
                     <input type="number" name="idno" id="idno" placeholder="ID No" require>
                     <input type="text" name="fname" id="fname" placeholder="First Name" require>
                     <input type="text" name="lname" id="lname" placeholder="Last Name" require><br>

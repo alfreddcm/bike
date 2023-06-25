@@ -12,36 +12,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lname = $_POST['lname'];
     $course = $_POST['course'];
     $department = $_POST['dep'];
-    $datetime=$_POST['datetime'];
+    $datetime = $_POST['datetime'];
 
-    //still error lol
-    $sql = "SELECT * from history where (bikeid= ? or (studidno = ? and studfname= ? and studlname= ?)) and dtreturn=''";
+    if ($bikeid === '' || $studid === '' || $fname === '' || $lname === '' || $course === '' || $department === '' || $datetime === '') {
+        echo "<script>alert('Please fill in all required fields.'); window.location.href='index.php';</script>";
+        exit();
+    }
+
+    $sql = "SELECT * FROM history ORDER BY transno DESC LIMIT 1";
     $query = $conn->prepare($sql);
-    $query->bind_param("ssss", $bikeid, $studid, $fname, $lname);
-    $query->execute();
+    if ($query->execute()) {
+        $result = $query->get_result();
 
-    if($query->affected_rows>0){
-        echo "<script>alert('You cannot borrow a bike. Please return the borrowed bike first.'); window.location.href='index.php';</script>";
-    
-    }else{
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $valid = $row['dtreturn'];
+            $checkstudid = $row['studidno'];
+            $checkfname = $row['studfname'];
+            $checklname = $row['studlname'];
+
+            if ($valid == null && $studid == $checkstudid && $fname == $checkfname && $lname == $checklname) {
+                echo "<script>alert('You cannot borrow a bike. Please return the borrowed bike first.'); window.location.href='index.php';</script>";
+                exit();
+            }
+        }
+
         $query->close();
 
-        $sql1 ="INSERT INTO history (bikeid, studidno, studfname, studlname, course, depname, dtborrow) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql1 = "SELECT * FROM history WHERE studidno = ? AND (studfname != ? and studlname != ?) AND dtreturn IS NULL";
         $query1 = $conn->prepare($sql1);
-        $query1->bind_param("sssssss", $bikeid, $studid, $fname, $lname, $course, $department, $datetime);
+        $query1->bind_param("sss", $studid, $fname, $lname);
         $query1->execute();
+        $result1 = $query1->get_result();
 
-        $sql2 = "UPDATE bikeinfo SET stat = ? WHERE bikeid = ?";
+        if ($result1->num_rows > 0) {
+            echo "<script>alert('ID number and Name mismatch. Please check your input'); window.location.href='index.php';</script>";
+            exit();
+        }
+        
+        $query1->close();
+        $sql2 = "INSERT INTO history (bikeid, studidno, studfname, studlname, course, depname, dtborrow) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $query2 = $conn->prepare($sql2);
-        $status = "borrowed";
-        $query2->bind_param("ss", $status, $bikeid);
+        $query2->bind_param("sssssss", $bikeid, $studid, $fname, $lname, $course, $department, $datetime);
         $query2->execute();
 
-        if ($query1->affected_rows > 0 && $query2->affected_rows > 0) {
+        $sql3 = "UPDATE bikeinfo SET stat = ? WHERE bikeid = ?";
+        $query3 = $conn->prepare($sql3);
+        $status = "borrowed";
+        $query3->bind_param("ss", $status, $bikeid);
+        $query3->execute();
+
+        if ($query2->affected_rows > 0 && $query3->affected_rows > 0) {
             echo "<script>alert('Transaction Recorded!'); window.location.href='index.php';</script>";
+            exit();
         } else {
             echo "<script>alert('Failed to record the transaction!'); window.location.href='index.php';</script>";
+            exit();
         }
     }
-}
+        }
 ?>
